@@ -1,0 +1,66 @@
+[
+    {
+      "question": "What undergraduate courses are offered at Stanley College of Engineering and Technology for Women?",
+      "answer": "Stanley College of Engineering and Technology for Women offers various B.Tech programs including CSE, CME, AIDS, AIML ,ECE ,EEE ,IT ,. For the latest list of branches and intake, please refer to the official college website or contact the admissions office. follow thi",
+      "category": "admissions",
+      "intent": "courses_offered"
+    },
+    {
+      "question": "What Postgraduate courses are offered at Stanley College of Engineering and Technology for Women?",
+      "answer": "Stanley College of Engineering and Technology for Women offers various PG programs including MBA, ME, MTEC. For the latest list of branches and intake, please refer to the official college website or contact the admissions office.",
+      "category": "admissions",
+      "intent": "courses_offered"
+    },
+    {
+      "question": "What is the eligibility for B.Tech admission?",
+      "answer": "Eligibility for B.Tech admission generally includes qualifying in entrance exams like EAMCET and ECET and meeting the minimum percentage criteria in Intermediate or Diploma. Please check the official admission notification of Stanley College of Engineering and Technology for Women for the current year details.",
+      "category": "admissions",
+      "intent": "eligibility"
+    },
+    {
+      "question": "How can I apply for admission?",
+      "answer": "You can apply for admission through the counseling process conducted by the respective entrance exam authorities. For management quota or detailed admission procedure, contact the Stanley College of Engineering and Technology here 040-23234880",
+      "category": "admissions",
+      "intent": "how_to_apply"
+    },
+    {
+      "question": "What is the fee structure for B.Tech?",
+      "answer": "The fee structure for B.Tech may vary by branch and category. For the most accurate and updated fee details, please refer to the official fee notification or contact the Stanley College of Engineering and Technology for Women accounts or admissions department.",
+      "category": "fees",
+      "intent": "fee_structure"
+    },
+    {
+      "question": "Where can I find the syllabus?",
+      "answer": "you can get the syllabus from your respective incharges for reference follow this link https://www.stanley.edu.in/basic-01 May or May not be updated ",
+      "category": "syllabus",
+      "intent": "syllabus_info"
+    },
+    {
+      "question": "How do I know exam schedules and notifications?",
+      "answer": "Exam timetables and notifications are usually published on the college notice board and official website. You may also receive updates from your department or exam branch.",
+      "category": "exams",
+      "intent": "exam_schedule"
+    },
+    {
+      "question": "What are the college timings?",
+      "answer": "College timings can change from year to year. General timings are 9:15 AM to 3.45 PM",
+      "category": "general",
+      "intent": "college_timings"
+    },
+    
+    {
+      "question": "where is the college located?",
+      "answer": "College is located at H. No. 5-78 to 82, B-1-80 & 5-9-81, Chapel Road,Fateh Maidan, Abids, Hyderabad, Telangana - 500001.",
+      "category": "general",
+      "intent": "contact_info"
+    },
+    {
+      "question":"how can i contact to the college officials?",
+      "answer":"you can contact through email or phone number this is the details Email: hr@stanley.edu.in | Phone: 040-23234880",
+      "category":"general",
+      "intent":"contact_info"
+
+    }
+
+  ]
+  

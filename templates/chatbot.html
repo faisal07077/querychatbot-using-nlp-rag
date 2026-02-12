@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ college_name }} – AI Chatbot</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* ✅ Chat Icon Button */
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4b4ded;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 9999;
+        }
+
+        /* ✅ Chat Popup Container */
+        .chat-container {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 360px;
+            max-width: 95vw;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9999;
+        }
+
+        .chat-header {
+            background: #4b4ded;
+            color: white;
+            padding: 12px 16px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .chat-messages {
+            padding: 10px;
+            height: 350px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.bot {
+            text-align: left;
+        }
+
+        .bubble {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 16px;
+            max-width: 80%;
+        }
+
+        .user .bubble {
+            background: #4b4ded;
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .bot .bubble {
+            background: #f0f0f0;
+            color: #333;
+            border-bottom-left-radius: 2px;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: none;
+            padding: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-input button {
+            border: none;
+            padding: 0 16px;
+            cursor: pointer;
+            background: #4b4ded;
+            color: white;
+            font-weight: bold;
+        }
+        /* ✅ Robot Helper Bubble */
+.robot-helper {
+    position: fixed;
+    bottom: 95px;
+    right: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    animation: floatBot 2s ease-in-out infinite;
+}
+
+@keyframes floatBot {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+.robot-avatar {
+    width: 48px;
+    height: 48px;
+    background: radial-gradient(circle, #6f6cff, #4b4ded);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(75, 77, 237, 0.8);
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 10px rgba(75, 77, 237, 0.6); }
+    to { box-shadow: 0 0 22px rgba(75, 77, 237, 1); }
+}
+
+/* ✅ Speech Bubble */
+.robot-text {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: fadeText 1s infinite alternate;
+}
+
+@keyframes fadeText {
+    from { opacity: 0.7; }
+    to { opacity: 1; }
+}
+/* ✅ Smooth Admission Modal Overlay */
+/* ✅ Overlay */
+#admissionModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    padding: 15px;
+}
+
+/* ✅ Card (Perfect Fit on All Screens) */
+.admission-card {
+    background: #fff;
+    width: 100%;
+    max-width: 380px;   /* ✅ THIS FIXES THE OVERFLOW */
+    border-radius: 14px;
+    padding: 20px 18px 22px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    animation: slideUp 0.35s ease forwards;
+}
+
+/* ✅ Title */
+.admission-card h3 {
+    margin: 0 0 14px;
+    text-align: center;
+    color: #4b4ded;
+    font-size: 18px;
+}
+
+/* ✅ Inputs (Perfect Spacing) */
+.admission-card input,
+.admission-card textarea {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 13.5px;
+    outline: none;
+}
+
+/* ✅ Buttons */
+.admission-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.admission-actions button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submit-btn {
+    background: #4b4ded;
+    color: white;
+}
+
+.cancel-btn {
+    background: #e0e0e0;
+}
+
+/* ✅ Animation */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+    </style>
+</head>
+<body>
+    <!-- ✅ Smooth Admission Enquiry Modal -->
+<div id="admissionModal">
+    <div class="admission-card">
+        <h3>Admission Enquiry Form</h3>
+
+        <input id="aName" placeholder="Full Name">
+        <input id="aPhone" placeholder="Mobile Number">
+        <input id="aEmail" placeholder="Email ID">
+        <input id="aCourse" placeholder="Course Interested">
+        <textarea id="aMessage" rows="3" placeholder="Your Query"></textarea>
+
+        <div class="admission-actions">
+            <button class="submit-btn" onclick="submitAdmission()">Submit</button>
+            <button class="cancel-btn" onclick="closeAdmissionForm()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+    
+
+<!-- ✅ CHAT ICON -->
+<div class="chat-icon" onclick="openChat()">💬</div>
+<!-- ✅ Robot Helper -->
+<div class="robot-helper" onclick="openChat()">
+    <div class="robot-text">Ask me your questions!</div>
+    <div class="robot-avatar">🤖</div>
+</div>
+
+
+
+
+<div class="chat-container" id="chatBox">
+    <div class="chat-header">
+        {{ college_name }} – Assistant
+        <div>
+            <span id="voiceToggle" style="cursor:pointer; margin-right:10px;">🔊</span>
+            <span class="close-btn" onclick="closeChat()">✖</span>
+        </div>
+    </div>
+
+    <!-- ✅ CHAT MESSAGES -->
+    <div class="chat-messages" id="chatMessages"></div>
+
+    <!-- ✅ ✅ PLACE THE BUTTON EXACTLY HERE -->
+    <button onclick="openAdmissionForm()" 
+            style="margin:10px; padding:8px 12px; background:#4b4ded; color:white; border:none; border-radius:6px; cursor:pointer;">
+        📝 Apply for Admission
+    </button>
+
+    <!-- ✅ CHAT INPUT -->
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your question here...">
+        <button id="sendBtn">Send</button>
+    </div>
+</div>
+
+
+<script>
+    function openAdmissionForm() {
+    document.getElementById("admissionModal").style.display = "block";
+}
+
+function closeAdmissionForm() {
+    document.getElementById("admissionModal").style.display = "none";
+}
+
+async function submitAdmission() {
+    const data = {
+        name: document.getElementById("aName").value,
+        phone: document.getElementById("aPhone").value,
+        email: document.getElementById("aEmail").value,
+        course: document.getElementById("aCourse").value,
+        message: document.getElementById("aMessage").value
+    };
+
+    const res = await fetch("/admission-form", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (result.status === "success") {
+        alert("✅ Your details have been sent to the admission office!");
+        closeAdmissionForm();
+    } else {
+        alert("❌ Error sending your details!");
+    }
+}
+
+    let voiceEnabled = true;   // ✅ Voice ON by default
+
+document.addEventListener("DOMContentLoaded", function () {
+    const voiceBtn = document.getElementById("voiceToggle");
+
+    voiceBtn.addEventListener("click", function () {
+        voiceEnabled = !voiceEnabled;
+
+        // ✅ STOP ANY ONGOING VOICE IMMEDIATELY
+        window.speechSynthesis.cancel();
+
+        this.textContent = voiceEnabled ? "🔊" : "🔇";
+    });
+});
+
+
+    const messagesEl = document.getElementById("chatMessages");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const chatBox = document.getElementById("chatBox");
+
+    function openChat() {
+    if (chatBox.style.display === "flex") {
+        // If already open → close it
+        chatBox.style.display = "none";
+        return;
+    }
+
+    // If closed → open it
+    chatBox.style.display = "flex";
+
+    // show greeting only the first time
+    if (!window._greetedOnce) {
+        setTimeout(() => {
+            appendMessage(
+                "Hi! 👋 Welcome to Stanley College of Engineering and Technology for Women. You can ask me about admissions, exams, syllabus and fees.",
+                "bot"
+            );
+        }, 800);
+        window._greetedOnce = true;
+       
+    }
+}
+
+
+function closeChat() {
+    chatBox.style.display = "none";
+}
+
+
+    function appendMessage(text, sender) {
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "message " + sender;
+
+        const bubble = document.createElement("div");
+        bubble.className = "bubble";
+        bubble.textContent = text;
+
+        msgDiv.appendChild(bubble);
+        messagesEl.appendChild(msgDiv);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    async function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+
+    appendMessage(text, "user");
+    userInput.value = "";
+    userInput.focus();
+    sendBtn.disabled = true;
+
+    const typingId = "typing-" + Date.now();
+    const typingDiv = document.createElement("div");
+    typingDiv.className = "message bot";
+    typingDiv.id = typingId;
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = "● ● ● is typing...";
+    typingDiv.appendChild(bubble);
+    messagesEl.appendChild(typingDiv);
+
+    try {
+        const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text })
+        });
+
+        const data = await res.json();
+
+        setTimeout(() => {
+            document.getElementById(typingId).remove();
+
+            // ✅ Show bot message
+            appendMessage(data.reply || "Sorry, something went wrong.", "bot");
+
+            // ✅ ROBOT VOICE SPEAKS HERE
+            speakBot(data.reply);
+
+            // ✅ SMART AUTO FOLLOW-UP TRIGGER
+            autoFollowUp(data.intent);
+
+            sendBtn.disabled = false;
+        }, 2000);
+
+    } catch (e) {
+        document.getElementById(typingId).remove();
+        appendMessage("Server error. Please try later.", "bot");
+        sendBtn.disabled = false;
+    }
+}
+
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") sendMessage();
+    });
+    function hideRobotHelper() {
+    const botHelper = document.querySelector(".robot-helper");
+    if (botHelper) botHelper.style.display = "none";
+}
+function speakBot(text) {
+    if (!voiceEnabled) return;
+
+    window.speechSynthesis.cancel(); // ✅ prevent overlapping
+
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-IN";
+    speech.rate = 1;
+    speech.pitch = 1.1;
+    speech.volume = 1;
+
+    window.speechSynthesis.speak(speech);
+}
+function openAdmissionForm() {
+    document.getElementById("admissionModal").style.display = "flex";
+}
+
+function closeAdmissionForm() {
+    document.getElementById("admissionModal").style.display = "none";
+}
+
+
+</script>
+
+</body>
+</html>

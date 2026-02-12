@@ -83,7 +83,7 @@ cd querychatbot-using-nlp-rag
 pip install -r requirements.txt
 ```
 
-### Build the Vector Index (if required)
+### Build the Vector Index 
 
 ```bash
 python rag/index_builder.py

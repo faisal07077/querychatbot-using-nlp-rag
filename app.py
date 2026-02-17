@@ -4,6 +4,7 @@ from nlp import CollegeChatbot
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -84,5 +85,5 @@ def admission_form():
         return jsonify({"status": "error"})
 
 if __name__ == "__main__":
-    # In production, use gunicorn/uwsgi + nginx, not debug=True
-    app.run(debug=True)
+    print("Starting production server on http://localhost:8000")
+    serve(app, host="0.0.0.0", port=8000, threads=8)

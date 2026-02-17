@@ -1,4 +1,7 @@
-flask
+Flask
 scikit-learn
 numpy
 sentence-transformers
+torch
+faiss-cpu
+waitress

@@ -5,3 +5,5 @@ sentence-transformers
 torch
 faiss-cpu
 waitress
+groq
+python-dotenv

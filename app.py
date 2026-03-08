@@ -2,10 +2,14 @@
 from flask import Flask, render_template, request, jsonify
 from nlp import CollegeChatbot
 import smtplib
+import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from waitress import serve
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(
     level=logging.INFO,
@@ -41,39 +45,63 @@ def chat():
         }
     )
 
+
 @app.route("/admission-form", methods=["POST"])
 def admission_form():
     data = request.get_json()
 
-    name = data.get("name")
-    phone = data.get("phone")
-    email = data.get("email")
-    course = data.get("course")
-    message = data.get("message")
+    # Get all form fields
+    name     = data.get("name", "N/A")
+    phone    = data.get("phone", "N/A")
+    email    = data.get("email", "N/A")
+    city     = data.get("city", "N/A")
+    course   = data.get("course", "N/A")
+    tenth    = data.get("tenth", "N/A")
+    twelfth  = data.get("twelfth", "N/A")
+    exam     = data.get("exam", "N/A")
+    source   = data.get("source", "N/A")
+    message  = data.get("message", "N/A")
 
-    
-    college_email = "admissions@stanleycollege.ac.in"
+    # Load credentials from .env
+    sender_email    = os.getenv("SENDER_EMAIL")
+    sender_password = os.getenv("SENDER_PASSWORD")
+    college_email   = os.getenv("COLLEGE_EMAIL", "hr@stanley.edu.in")
 
-    sender_email = "YOUR_GMAIL@gmail.com"
-    sender_password = "YOUR_APP_PASSWORD"
-
-    subject = "New Admission Enquiry from Website Chatbot"
+    subject = f"📋 New Admission Enquiry — {name} ({course})"
 
     body = f"""
-    New Admission Enquiry Received:
+New Admission Enquiry Received via Stanley College Chatbot
+===========================================================
 
-    Name: {name}
-    Phone: {phone}
-    Email: {email}
-    Course Interested: {course}
+👤 PERSONAL DETAILS
+--------------------
+Name    : {name}
+Phone   : {phone}
+Email   : {email}
+City    : {city}
 
-    Message:
-    {message}
+📚 ACADEMIC DETAILS
+--------------------
+Course Interested : {course}
+10th Percentage   : {tenth}%
+12th Percentage   : {twelfth}%
+Entrance Exam     : {exam}
+
+📣 HOW DID THEY HEAR
+---------------------
+Source  : {source}
+
+💬 MESSAGE
+-----------
+{message}
+
+===========================================================
+This enquiry was submitted via the Stanley College chatbot.
     """
 
     msg = MIMEMultipart()
-    msg["From"] = sender_email
-    msg["To"] = college_email
+    msg["From"]    = sender_email
+    msg["To"]      = college_email
     msg["Subject"] = subject
     msg.attach(MIMEText(body, "plain"))
 
@@ -83,12 +111,13 @@ def admission_form():
         server.login(sender_email, sender_password)
         server.send_message(msg)
         server.quit()
-
+        logging.info(f"✅ Admission email sent for {name}")
         return jsonify({"status": "success"})
 
     except Exception as e:
-        print(e)
-        return jsonify({"status": "error"})
+        logging.error(f"❌ Email error: {e}")
+        return jsonify({"status": "error", "message": str(e)})
+
 
 if __name__ == "__main__":
     print("Starting production server on http://localhost:8000")

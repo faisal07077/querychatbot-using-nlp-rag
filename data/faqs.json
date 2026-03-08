@@ -1,66 +1,260 @@
 [
-    {
-      "question": "What undergraduate courses are offered at Stanley College of Engineering and Technology for Women?",
-      "answer": "Stanley College of Engineering and Technology for Women offers various B.Tech programs including CSE, CME, AIDS, AIML ,ECE ,EEE ,IT ,. For the latest list of branches and intake, please refer to the official college website or contact the admissions office. follow thi",
-      "category": "admissions",
-      "intent": "courses_offered"
-    },
-    {
-      "question": "What Postgraduate courses are offered at Stanley College of Engineering and Technology for Women?",
-      "answer": "Stanley College of Engineering and Technology for Women offers various PG programs including MBA, ME, MTEC. For the latest list of branches and intake, please refer to the official college website or contact the admissions office.",
-      "category": "admissions",
-      "intent": "courses_offered"
-    },
-    {
-      "question": "What is the eligibility for B.Tech admission?",
-      "answer": "Eligibility for B.Tech admission generally includes qualifying in entrance exams like EAMCET and ECET and meeting the minimum percentage criteria in Intermediate or Diploma. Please check the official admission notification of Stanley College of Engineering and Technology for Women for the current year details.",
-      "category": "admissions",
-      "intent": "eligibility"
-    },
-    {
-      "question": "How can I apply for admission?",
-      "answer": "You can apply for admission through the counseling process conducted by the respective entrance exam authorities. For management quota or detailed admission procedure, contact the Stanley College of Engineering and Technology here 040-23234880",
-      "category": "admissions",
-      "intent": "how_to_apply"
-    },
-    {
-      "question": "What is the fee structure for B.Tech?",
-      "answer": "The fee structure for B.Tech may vary by branch and category. For the most accurate and updated fee details, please refer to the official fee notification or contact the Stanley College of Engineering and Technology for Women accounts or admissions department.",
-      "category": "fees",
-      "intent": "fee_structure"
-    },
-    {
-      "question": "Where can I find the syllabus?",
-      "answer": "you can get the syllabus from your respective incharges for reference follow this link https://www.stanley.edu.in/basic-01 May or May not be updated ",
-      "category": "syllabus",
-      "intent": "syllabus_info"
-    },
-    {
-      "question": "How do I know exam schedules and notifications?",
-      "answer": "Exam timetables and notifications are usually published on the college notice board and official website. You may also receive updates from your department or exam branch.",
-      "category": "exams",
-      "intent": "exam_schedule"
-    },
-    {
-      "question": "What are the college timings?",
-      "answer": "College timings can change from year to year. General timings are 9:15 AM to 3.45 PM",
-      "category": "general",
-      "intent": "college_timings"
-    },
-    
-    {
-      "question": "where is the college located?",
-      "answer": "College is located at H. No. 5-78 to 82, B-1-80 & 5-9-81, Chapel Road,Fateh Maidan, Abids, Hyderabad, Telangana - 500001.",
-      "category": "general",
-      "intent": "contact_info"
-    },
-    {
-      "question":"how can i contact to the college officials?",
-      "answer":"you can contact through email or phone number this is the details Email: hr@stanley.edu.in | Phone: 040-23234880",
-      "category":"general",
-      "intent":"contact_info"
-
-    }
-
+  {
+    "question": "What undergraduate courses are offered at Stanley College of Engineering and Technology for Women?",
+    "answer": "Stanley College of Engineering and Technology for Women offers various B.Tech programs including CSE, CME, AIDS, AIML, ECE, EEE, IT. For the latest list of branches and intake, please refer to the official college website or contact the admissions office.",
+    "category": "admissions",
+    "intent": "courses_offered"
+  },
+  {
+    "question": "What Postgraduate courses are offered at Stanley College of Engineering and Technology for Women?",
+    "answer": "Stanley College of Engineering and Technology for Women offers various PG programs including MBA, ME, MTEC. For the latest list of branches and intake, please refer to the official college website or contact the admissions office.",
+    "category": "admissions",
+    "intent": "courses_offered"
+  },
+  {
+    "question": "What is the eligibility for B.Tech admission?",
+    "answer": "Eligibility for B.Tech admission generally includes qualifying in entrance exams like EAMCET and ECET and meeting the minimum percentage criteria in Intermediate or Diploma.a minimum of 45-50% in 10+2  or 10+3 if diploma is required",
+    "category": "admissions",
+    "intent": "eligibility"
+  },
+  {
+    "question": "How can I apply for admission?",
+    "answer": "You can apply for admission through the counseling process conducted by the respective entrance exam authorities(EAMCET OR ECET(If diploma). For management quota or detailed admission procedure, contact the Stanley College at 040-23234880.",
+    "category": "admissions",
+    "intent": "how_to_apply"
+  },
+  {
+    "question": "What is the fee structure for BE?",
+    "answer": "The fee structure for BE may vary by branch and category.For BE(all branches) RS.85000/- + 3000/- for ME General gategory(GATE/NON-GATE) RS.57000 for MBA RS.55000 also please refer this linkn for more information https://www.stanley.edu.in/admissions",
+    "category": "fees",
+    "intent": "fee_structure"
+  },
+  {
+    "question": "Where can I find the syllabus?",
+    "answer": "You can get the syllabus from your respective incharges. For reference follow this link: https://www.stanley.edu.in/basic-01 (may or may not be updated).",
+    "category": "syllabus",
+    "intent": "syllabus_info"
+  },
+  {
+    "question": "How do I know exam schedules and notifications?",
+    "answer": "Exam timetables and notifications are usually published on the college notice board and official website. You may also receive updates from your department or exam branch.",
+    "category": "exams",
+    "intent": "exam_schedule"
+  },
+  {
+    "question": "What are the college timings?",
+    "answer": "College timings can change from year to year. General timings are 9:15 AM to 3:45 PM.",
+    "category": "general",
+    "intent": "college_timings"
+  },
+  {
+    "question": "Where is the college located?",
+    "answer": "The college is located at H. No. 5-78 to 82, B-1-80 & 5-9-81, Chapel Road, Fateh Maidan, Abids, Hyderabad, Telangana - 500001.",
+    "category": "general",
+    "intent": "contact_info"
+  },
+  {
+    "question": "How can I contact the college officials?",
+    "answer": "You can contact through Email: hr@stanley.edu.in or Phone: 040-23234880.",
+    "category": "general",
+    "intent": "contact_info"
+  },
+  {
+    "question": "Does Stanley College have a hostel facility?",
+    "answer": "Yes, Stanley College of Engineering and Technology for Women has a hostel facility for its students. For more details, contact at 040-23234880 or email hr@stanley.edu.in.",
+    "category": "facilities",
+    "intent": "hostel"
+  },
+  {
+    "question": "What clubs are available in Stanley College?",
+    "answer": "Stanley College has various student clubs and extracurricular activities. For the latest list of active clubs and how to join, please contact the student affairs office or visit the official college website.",
+    "category": "facilities",
+    "intent": "clubs"
+  },
+  {
+    "question": "Is there wifi available on campus?",
+    "answer": "Stanley College campus is equipped with internet facilities for students. For details on wifi access, contact the IT department or college office at 040-23234880.",
+    "category": "facilities",
+    "intent": "wifi"
+  },
+  {
+    "question": "Does Stanley College have a library?",
+    "answer": "Yes, Stanley College has a well-equipped library with a wide collection of books, journals, and digital resources to support students in their academics and research.",
+    "category": "facilities",
+    "intent": "library"
+  },
+  {
+    "question": "Does Stanley College have a canteen?",
+    "answer": "Yes, Stanley College has a canteen on campus that provides meals and snacks for students and staff during college hours.",
+    "category": "facilities",
+    "intent": "canteen"
+  },
+  {
+    "question": "What sports facilities are available at Stanley College?",
+    "answer": "Stanley College provides sports and recreational facilities for students. For the complete list of available sports and activities, please contact the sports department or college office.",
+    "category": "facilities",
+    "intent": "sports"
+  },
+  {
+    "question": "Are there any scholarships available at Stanley College?",
+    "answer": "Yes, scholarships are available for eligible students based on merit and category. These include government scholarships like SC/ST/BC and merit-based awards. Contact the admissions office at 040-23234880 for details.",
+    "category": "general",
+    "intent": "scholarships"
+  },
+  {
+    "question": "What is the dress code at Stanley College?",
+    "answer": "Stanley College follows a dress code policy for students. For the current dress code rules, please refer to the college handbook or contact the college office.",
+    "category": "general",
+    "intent": "dress_code"
+  },
+  {
+    "question": "How are placements at Stanley College?",
+    "answer": "Stanley College has an active Training and Placement Cell that assists students with campus placements. For details on placement records and recruiting companies, contact the placement office or visit https://www.stanley.edu.in/placements",
+    "category": "general",
+    "intent": "placements"
+  },
+  {
+    "question": "Who is the principal of Stanley College?",
+    "answer": "the current prinicipal of stanley college is DR.B.L Raju Dr. B. L. Raju, Principal of Stanley College of Engineering and Technology for Women, is a distinguished academic leader with over 33 years of rich experience in engineering education, institutional governance, and research advancement. He holds a Ph.D. in VLSI from JNTUH and is a recognized Ph.D. supervisor under both JNTUH and Osmania University. He has held pivotal academic and administrative positions in several reputed institutions. please visit the official Stanley College website at https://www.stanley.edu.in/administration",
+    "category": "general",
+    "intent": "principal"
+  },
+  {
+    "question": "What is the college website?",
+    "answer": "The official website of Stanley College of Engineering and Technology for Women is https://www.stanley.edu.in",
+    "category": "general",
+    "intent": "website"
+  },
+  {
+    "question": "What transport facilities are available for students?",
+    "answer": "Stanley College provides transport facilities for students from various locations in Hyderabad. For route details and availability, contact the college office at 040-23234880.",
+    "category": "facilities",
+    "intent": "transport"
+  },
+  {
+    "question": "How do I pay the fee online?",
+    "answer": "You can pay your fees online at Stanley College through this link: https://www.stanley.edu.in/payment-links The portal accepts UPI, debit/credit cards, and net banking. For any payment issues, contact the accounts section at 040-27613450.",
+    "category": "fees",
+    "intent": "fee_payment"
+  },
+  {
+    "question": "What is the online fee payment link?",
+    "answer": "Stanley College online fee payment portal: https://www.stanley.edu.in/payment-links Accepts UPI, debit/credit cards, and net banking. For help call 040-27613450.",
+    "category": "fees",
+    "intent": "fee_payment"
+  },
+  {
+    "question": "What scholarships are available at Stanley College?",
+    "answer": "Scholarships available: 1) Telangana Govt Fee Reimbursement for SC/ST/BC/EBC students, 2) Post Matric Scholarship, 3) Minority Scholarship, 4) Merit scholarships for top rankers. Submit income and caste certificates at admission. Details: https://www.stanley.edu.in/scholarships",
+    "category": "fees",
+    "intent": "scholarship"
+  },
+  {
+    "question": "Who are the top recruiters at Stanley College?",
+    "answer": "Top recruiters at Stanley College include TCS, Infosys, Wipro, Cognizant, Capgemini, HCL, Accenture, IBM, Amazon, Deloitte, Honeywell, Intel, DBS Bank, UBS, and Experian. Visit: https://www.stanley.edu.in/top-recruiters",
+    "category": "placements",
+    "intent": "recruiters"
+  },
+  {
+    "question": "What is the highest package at Stanley College?",
+    "answer": "Stanley College students have received packages up to 10-16 LPA from top MNCs. The average package is around 4-6 LPA. For latest stats visit: https://www.stanley.edu.in/placements",
+    "category": "placements",
+    "intent": "placement_package"
+  },
+  {
+    "question": "What is the placement percentage at Stanley College?",
+    "answer": "Stanley College has 750+ students placed annually with a placement percentage consistently above 80%. Visit: https://www.stanley.edu.in/placements",
+    "category": "placements",
+    "intent": "placement_stats"
+  },
+  {
+    "question": "Who are you?",
+    "answer": "I am Stanley AI, the official chatbot of Stanley College of Engineering and Technology for Women. I can help you with information about admissions, fees, courses, faculty, placements, facilities, and more. How can I assist you today?",
+    "category": "general",
+    "intent": "bot_identity"
+  },
+  {
+    "question": "What can you do?",
+    "answer": "I can help you with: Admissions & eligibility, Fee structure & payment, Courses offered, Faculty details, Placement statistics, Hostel & facilities, Exam schedules, Scholarships, Contact information, and much more about Stanley College!",
+    "category": "general",
+    "intent": "bot_capabilities"
+  },
+  {
+    "question": "Hello",
+    "answer": "Hello! Welcome to Stanley College of Engineering and Technology for Women. I am Stanley AI, your virtual assistant. How can I help you today?",
+    "category": "general",
+    "intent": "greeting"
+  },
+  {
+    "question": "Hi",
+    "answer": "Hi there! I am Stanley AI. Ask me anything about Stanley College — admissions, fees, placements, courses, and more!",
+    "category": "general",
+    "intent": "greeting"
+  },
+  {
+    "question": "What is Stanley College?",
+    "answer": "Stanley College of Engineering and Technology for Women is a premier autonomous institution located in Abids, Hyderabad, established in 2008. It is affiliated with Osmania University and approved by AICTE. The college holds NAAC accreditation and NBA accreditation for select programs. It offers B.Tech, M.Tech, and MBA programs and is known for excellent placements, quality faculty, and strong industry connections. Website: https://www.stanley.edu.in",
+    "category": "general",
+    "intent": "about_college"
+  },
+  {
+    "question": "Is Stanley College for women only?",
+    "answer": "Yes, Stanley College of Engineering and Technology is exclusively for women. It is one of the premier women's engineering colleges in Hyderabad, Telangana.",
+    "category": "general",
+    "intent": "about_college"
+  },
+  {
+    "question": "When was Stanley College established?",
+    "answer": "Stanley College of Engineering and Technology for Women was established in 2008. It is located in Abids, Hyderabad and is affiliated with Osmania University.",
+    "category": "general",
+    "intent": "about_college"
+  },
+  {
+    "question": "Is Stanley College NAAC accredited?",
+    "answer": "Yes, Stanley College of Engineering and Technology for Women is NAAC accredited. It also holds NBA accreditation for select programs and is an autonomous institution affiliated with Osmania University.",
+    "category": "general",
+    "intent": "accreditation"
+  },
+  {
+    "question": "Thank you",
+    "answer": "You are welcome! Feel free to ask if you have any more questions about Stanley College. Happy to help!",
+    "category": "general",
+    "intent": "thanks"
+  },
+  {
+    "question": "Bye",
+    "answer": "Goodbye! Thank you for visiting Stanley College. Feel free to come back anytime with your questions. Best of luck!",
+    "category": "general",
+    "intent": "farewell"
+  },
+  {
+    "question": "What documents are required for joining Stanley College?",
+    "answer": "Documents required for joining Stanley College: 1) SSC (10th) Marks Memo, 2) Intermediate (12th) Marks Memo, 3) Transfer Certificate (TC), 4) Migration Certificate, 5) EAMCET/JEE Rank Card, 6) Income Certificate, 7) Caste Certificate (if applicable), 8) Aadhar Card, 9) 6 Passport-size photographs, 10) Residence Certificate. Submit originals + 2 photocopies at the time of joining.",
+    "category": "admissions",
+    "intent": "documents"
+  },
+  {
+    "question": "What are the awards and recognitions of Stanley College?",
+    "answer": "Stanley College has received several recognitions: NAAC Accreditation, NBA Accreditation for select programs, Autonomous Institution status by UGC, consistent NIRF rankings, 750+ annual placements, active IIC recognized by MoE, and multiple patents granted to faculty and students.",
+    "category": "general",
+    "intent": "achievements"
+  },
+  {
+    "question": "Achievements",
+    "answer": "Stanley College achievements: NAAC Accredited institution, NBA Accreditation for select B.Tech programs, 750+ placements annually, Autonomous Institution status, Scopus-indexed research publications, active IIC (Institution's Innovation Council), multiple patents granted, and consistent NIRF rankings. A premier women's engineering college in Hyderabad since 2008.",
+    "category": "general",
+    "intent": "achievements"
+  },
+  {
+    "question": "What is the mission of Stanley College?",
+    "answer": "Mission of Stanley College: To provide quality technical education, promote research and innovation, develop ethical professionals, foster leadership qualities in women, and contribute to the socio-economic development of society.",
+    "category": "general",
+    "intent": "mission"
+  },
+  {
+    "question": "What is the vision of Stanley College?",
+    "answer": "Vision of Stanley College: To be a premier institution empowering women through excellence in technical education, innovation and research, and to produce globally competent engineers and technocrats.",
+    "category": "general",
+    "intent": "vision"
+  }
   ]
-  

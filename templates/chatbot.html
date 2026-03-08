@@ -3,491 +3,973 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ college_name }} – AI Chatbot</title>
-
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            height: 100vh;
-            margin: 0;
-        }
+        body { font-family: Arial, sans-serif; background: transparent; height: 100vh; margin: 0; }
 
-        /* ✅ Chat Icon Button */
+        /* ── DARK MODE ── */
+        body.dark-mode .chat-container { background:#1e1e1e; border-color:#444; }
+        body.dark-mode .chat-messages  { background:#181818; }
+        body.dark-mode .bot .bubble    { background:#2a2a2a; color:#eee; border-color:#444; }
+        body.dark-mode .chat-input input { background:#2a2a2a; color:#eee; }
+        body.dark-mode .char-count     { background:#2a2a2a; }
+        body.dark-mode .suggestion-chips{ background:#1e1e1e; border-top-color:#333; }
+        body.dark-mode .sugg-chip      { background:#2a2a2a; color:#ccc; border-color:#444; }
+        body.dark-mode .admit-btn      { background:#c0392b; }
+        body.dark-mode .chat-input     { border-top-color:#333; }
+        body.dark-mode .chat-input button { background:#c0392b; }
+
+        /* ── FLOATING ICON ── */
         .chat-icon {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #4b4ded;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 9999;
+            position:fixed; bottom:24px; right:24px;
+            display:flex; align-items:center; gap:10px;
+            cursor:pointer; z-index:9999;
+            animation:floatIcon 2.5s ease-in-out infinite;
         }
+        @keyframes floatIcon {
+            0%,100%{ transform:translateY(0); }
+            50%    { transform:translateY(-7px); }
+        }
+        .chat-icon-bubble {
+            background:white; color:#c0392b; font-weight:600; font-size:13px;
+            padding:8px 13px; border-radius:20px;
+            box-shadow:0 4px 14px rgba(0,0,0,0.15);
+            border:1px solid #f5c6c6; white-space:nowrap;
+            animation:fadeText 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes fadeText { from{opacity:0.8;} to{opacity:1;} }
+        .chat-icon-btn {
+            background:#c0392b; color:white; width:58px; height:58px;
+            border-radius:50%; display:flex; align-items:center; justify-content:center;
+            font-size:24px; box-shadow:0 4px 16px rgba(192,57,43,0.45);
+            border:3px solid #fff; transition:transform 0.2s,box-shadow 0.2s; flex-shrink:0;
+        }
+        .chat-icon:hover .chat-icon-btn { transform:scale(1.08); }
 
-        /* ✅ Chat Popup Container */
+        /* visitor badge on icon */
+        .visitor-badge {
+            position:absolute; top:-6px; right:-6px;
+            background:#27ae60; color:white;
+            font-size:9px; font-weight:700;
+            padding:2px 5px; border-radius:10px;
+            border:2px solid white; white-space:nowrap;
+        }
+        .chat-icon-btn { position:relative; }
+
+        /* ── CHAT CONTAINER ── */
         .chat-container {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: 360px;
-            max-width: 95vw;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 9999;
+            position:fixed; bottom:96px; right:20px;
+            width:365px; max-width:95vw;
+            background:#fff; border-radius:14px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.22);
+            display:none; flex-direction:column;
+            overflow:hidden; z-index:9999;
+            border:1px solid #e0c0c0;
+            transition:all 0.3s ease;
         }
+        /* fullscreen mode */
+        .chat-container.fullscreen {
+            width:100vw !important; height:100vh !important;
+            bottom:0 !important; right:0 !important;
+            border-radius:0 !important; max-width:100vw !important;
+        }
+        .chat-container.fullscreen .chat-messages { height:calc(100vh - 220px) !important; }
 
+        /* ── HEADER ── */
         .chat-header {
-            background: #4b4ded;
-            color: white;
-            padding: 12px 16px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background:linear-gradient(135deg,#c0392b,#e74c3c);
+            color:white; padding:13px 16px;
+            font-weight:bold; font-size:14px;
+            display:flex; justify-content:space-between; align-items:center;
+            flex-shrink:0;
         }
-
-        .close-btn {
-            cursor: pointer;
-            font-size: 20px;
+        .chat-header-left { display:flex; align-items:center; gap:10px; }
+        /* animated avatar */
+        .chat-header-logo {
+            width:36px; height:36px; border-radius:50%;
+            background:white; display:flex; align-items:center; justify-content:center;
+            font-size:16px; color:#8B0000; font-weight:900; font-family:serif;
+            flex-shrink:0; transition:transform 0.3s;
         }
+        .chat-header-logo.typing { animation:avatarPulse 0.6s ease-in-out infinite alternate; }
+        @keyframes avatarPulse {
+            from{ transform:scale(1); box-shadow:0 0 0 rgba(255,255,255,0); }
+            to  { transform:scale(1.12); box-shadow:0 0 8px rgba(255,255,255,0.6); }
+        }
+        .chat-header-info { line-height:1.3; }
+        .chat-header-info span { display:block; font-size:11px; font-weight:400; opacity:0.85; }
+        .chat-header-actions { display:flex; align-items:center; gap:10px; }
+        .hdr-btn { cursor:pointer; font-size:15px; opacity:0.85; transition:opacity 0.2s; }
+        .hdr-btn:hover { opacity:1; }
 
+        /* lang badge */
+        .lang-badge {
+            background:rgba(255,255,255,0.2); color:white;
+            font-size:10px; font-weight:700; padding:2px 7px;
+            border-radius:10px; border:1px solid rgba(255,255,255,0.4);
+            cursor:pointer; transition:background 0.2s;
+        }
+        .lang-badge:hover { background:rgba(255,255,255,0.35); }
+
+        /* sentiment bar */
+        .sentiment-bar {
+            padding:4px 14px;
+            font-size:11px; font-weight:600;
+            display:none; align-items:center; gap:6px;
+            background:#fff8f8; border-bottom:1px solid #f5e0e0;
+        }
+        .sentiment-bar.show { display:flex; }
+
+        /* ── MESSAGES ── */
         .chat-messages {
-            padding: 10px;
-            height: 350px;
-            overflow-y: auto;
-            font-size: 14px;
+            padding:12px; height:300px;
+            overflow-y:auto; font-size:13.5px;
+            background:#fdf8f8;
         }
-
-        .message {
-            margin-bottom: 10px;
-        }
-
-        .message.user {
-            text-align: right;
-        }
-
-        .message.bot {
-            text-align: left;
-        }
-
+        .message { margin-bottom:10px; }
+        .message.user { text-align:right; }
+        .message.bot  { text-align:left; }
         .bubble {
-            display: inline-block;
-            padding: 8px 12px;
-            border-radius: 16px;
-            max-width: 80%;
+            display:inline-block; padding:9px 13px;
+            border-radius:16px; max-width:82%; line-height:1.45;
+        }
+        .user .bubble { background:#c0392b; color:white; border-bottom-right-radius:3px; }
+        .bot  .bubble { background:#f0f0f0; color:#222; border-bottom-left-radius:3px; border:1px solid #e8e8e8; }
+
+        /* timestamp */
+        .msg-time { font-size:10px; color:#bbb; margin-top:3px; display:block; }
+        .message.user .msg-time { text-align:right; }
+        .message.bot  .msg-time { text-align:left; padding-left:4px; }
+
+        /* feedback 👍👎 */
+        .msg-feedback { display:flex; gap:6px; margin-top:4px; }
+        .fb-btn {
+            background:none; border:1px solid #e0e0e0;
+            border-radius:10px; padding:2px 8px; font-size:12px;
+            cursor:pointer; transition:all 0.2s; color:#888;
+        }
+        .fb-btn:hover { background:#f0f0f0; }
+        .fb-btn.active-up   { background:#e8f5e9; border-color:#27ae60; color:#27ae60; }
+        .fb-btn.active-down { background:#fdecea; border-color:#e53935; color:#e53935; }
+
+        /* follow-up chips after bot reply */
+        .followup-chips { display:flex; flex-wrap:wrap; gap:5px; margin-top:6px; }
+        .followup-chip {
+            background:#fff; color:#c0392b;
+            border:1px solid #f5c6c6; border-radius:14px;
+            padding:4px 10px; font-size:11.5px; cursor:pointer;
+            transition:all 0.2s;
+        }
+        .followup-chip:hover { background:#c0392b; color:white; border-color:#c0392b; }
+
+        /* typing dots */
+        .typing-dots { display:flex; gap:5px; align-items:center; padding:4px 2px; }
+        .typing-dots span { width:7px; height:7px; background:#aaa; border-radius:50%; animation:dotBounce 1.2s infinite; }
+        .typing-dots span:nth-child(2){animation-delay:0.2s;}
+        .typing-dots span:nth-child(3){animation-delay:0.4s;}
+        @keyframes dotBounce {
+            0%,80%,100%{ transform:translateY(0); background:#ddd; }
+            40%        { transform:translateY(-6px); background:#c0392b; }
         }
 
-        .user .bubble {
-            background: #4b4ded;
-            color: white;
-            border-bottom-right-radius: 2px;
+        /* faq chips on greeting */
+        .faq-chips { display:flex; flex-wrap:wrap; gap:6px; padding:6px 2px 2px; }
+        .faq-chip {
+            background:#fff0f0; color:#c0392b;
+            border:1px solid #f5c6c6; border-radius:16px;
+            padding:5px 11px; font-size:12px; font-weight:600;
+            cursor:pointer; transition:all 0.2s; white-space:nowrap;
         }
+        .faq-chip:hover { background:#c0392b; color:white; border-color:#c0392b; }
 
-        .bot .bubble {
-            background: #f0f0f0;
-            color: #333;
-            border-bottom-left-radius: 2px;
+        /* quick link buttons */
+        .quick-links {
+            display:flex; gap:8px; padding:6px 12px;
+            border-bottom:1px solid #f0f0f0; background:#fff;
         }
-
-        .chat-input {
-            display: flex;
-            border-top: 1px solid #ddd;
+        .quick-link-btn {
+            flex:1; padding:7px 6px; border:none; border-radius:8px;
+            font-size:12px; font-weight:700; cursor:pointer;
+            display:flex; align-items:center; justify-content:center;
+            gap:5px; transition:all 0.2s; text-decoration:none;
         }
+        .ql-results {
+            background:#fff3e0; color:#e65100;
+            border:1.5px solid #ffcc80;
+        }
+        .ql-results:hover { background:#e65100; color:white; border-color:#e65100; }
+        .ql-student {
+            background:#e8f5e9; color:#2e7d32;
+            border:1.5px solid #a5d6a7;
+        }
+        .ql-student:hover { background:#2e7d32; color:white; border-color:#2e7d32; }
 
+        /* admission button */
+        .admit-btn {
+            margin:8px 12px 4px; padding:9px 12px;
+            background:#c0392b; color:white; border:none;
+            border-radius:7px; cursor:pointer; font-size:13px; font-weight:600;
+            width:calc(100% - 24px); transition:background 0.2s;
+        }
+        .admit-btn:hover { background:#a93226; }
+
+        /* suggestion chips */
+        .suggestion-chips {
+            display:flex; flex-wrap:wrap; gap:6px;
+            padding:8px 12px 4px; border-top:1px solid #f5f5f5; background:#fff;
+        }
+        .sugg-chip {
+            background:#f9f9f9; color:#555; border:1px solid #e0e0e0;
+            border-radius:14px; padding:5px 11px; font-size:12px;
+            cursor:pointer; transition:all 0.2s;
+        }
+        .sugg-chip:hover { background:#c0392b; color:white; border-color:#c0392b; }
+
+        /* input */
+        .chat-input { display:flex; border-top:1px solid #eee; }
+        .input-wrap  { display:flex; flex-direction:column; flex:1; }
         .chat-input input {
-            flex: 1;
-            border: none;
-            padding: 10px;
-            font-size: 14px;
-            outline: none;
+            flex:1; border:none; padding:10px 12px;
+            font-size:13.5px; outline:none; background:#fff;
         }
-
+        .char-count { font-size:10px; color:#bbb; text-align:right; padding:2px 8px; background:#fff; }
+        .char-count.warn { color:#e74c3c; font-weight:600; }
         .chat-input button {
-            border: none;
-            padding: 0 16px;
-            cursor: pointer;
-            background: #4b4ded;
-            color: white;
-            font-weight: bold;
+            border:none; padding:0 18px; cursor:pointer;
+            background:#c0392b; color:white; font-weight:bold;
+            font-size:13px; transition:background 0.2s;
         }
-        /* ✅ Robot Helper Bubble */
-.robot-helper {
-    position: fixed;
-    bottom: 95px;
-    right: 25px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 9999;
-    animation: floatBot 2s ease-in-out infinite;
-}
+        .chat-input button:hover { background:#a93226; }
 
-@keyframes floatBot {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-    100% { transform: translateY(0); }
-}
+        /* ── ADMISSION MODAL ── */
+        #admissionModal {
+            position:fixed; inset:0; background:rgba(0,0,0,0.6);
+            backdrop-filter:blur(4px); display:none;
+            align-items:center; justify-content:center;
+            z-index:100000; padding:15px;
+        }
+        .admission-card {
+            background:#fff; width:100%; max-width:420px;
+            border-radius:18px; overflow:hidden;
+            box-shadow:0 20px 60px rgba(0,0,0,0.35);
+            animation:slideUp 0.35s cubic-bezier(.175,.885,.32,1.275) forwards;
+        }
+        .adm-banner {
+            background:linear-gradient(135deg,#c0392b,#e74c3c);
+            padding:22px 24px 18px; text-align:center; position:relative;
+        }
+        .adm-banner-logo {
+            width:52px; height:52px; background:rgba(255,255,255,0.2);
+            border:3px solid rgba(255,255,255,0.6); border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            font-size:22px; font-weight:900; color:white;
+            font-family:serif; margin:0 auto 10px;
+        }
+        .adm-banner h3 { color:white; font-size:17px; margin:0 0 3px; }
+        .adm-banner p  { color:rgba(255,255,255,0.82); font-size:11.5px; margin:0; }
+        .adm-close {
+            position:absolute; top:12px; right:14px;
+            color:rgba(255,255,255,0.8); font-size:18px;
+            cursor:pointer; background:none; border:none;
+        }
+        .adm-steps { display:flex; justify-content:center; gap:6px; padding:14px 24px 0; }
+        .adm-step  { height:4px; border-radius:2px; background:#eee; flex:1; transition:background 0.3s; }
+        .adm-step.active { background:#c0392b; }
+        .adm-body { padding:16px 24px 20px; }
+        .adm-page { display:none; }
+        .adm-page.show { display:block; }
+        .adm-page-title { font-size:13px; font-weight:700; color:#c0392b; margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+        .adm-field { position:relative; margin-bottom:12px; }
+        .adm-field label { display:block; font-size:11px; font-weight:600; color:#888; margin-bottom:4px; letter-spacing:0.4px; text-transform:uppercase; }
+        .adm-field input,.adm-field select,.adm-field textarea {
+            width:100%; padding:10px 12px; border:1.5px solid #e0e0e0;
+            border-radius:8px; font-size:13.5px; outline:none;
+            transition:border-color 0.2s,box-shadow 0.2s;
+            background:#fafafa; color:#222; font-family:Arial,sans-serif;
+        }
+        .adm-field input:focus,.adm-field select:focus,.adm-field textarea:focus {
+            border-color:#c0392b; box-shadow:0 0 0 3px rgba(192,57,43,0.1); background:#fff;
+        }
+        .adm-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+        .adm-nav  { display:flex; gap:10px; margin-top:14px; }
+        .adm-btn  { flex:1; padding:11px; border-radius:9px; border:none; font-weight:700; cursor:pointer; font-size:13.5px; transition:all 0.2s; }
+        .adm-btn-primary { background:linear-gradient(135deg,#c0392b,#e74c3c); color:white; box-shadow:0 3px 12px rgba(192,57,43,0.3); }
+        .adm-btn-primary:hover { transform:translateY(-1px); box-shadow:0 5px 18px rgba(192,57,43,0.45); }
+        .adm-btn-secondary { background:#f0f0f0; color:#555; }
+        .adm-success { display:none; text-align:center; padding:30px 24px; }
+        .adm-success .tick {
+            width:64px; height:64px; background:linear-gradient(135deg,#c0392b,#e74c3c);
+            border-radius:50%; display:flex; align-items:center; justify-content:center;
+            font-size:28px; color:white; margin:0 auto 14px;
+            animation:popIn 0.4s cubic-bezier(.175,.885,.32,1.275);
+        }
+        /* ── FACULTY PAGINATED LIST ── */
+        .faculty-list { width:100%; font-size:13px; }
+        .faculty-header {
+            background:linear-gradient(135deg,#c0392b,#e74c3c);
+            color:white; padding:8px 12px; border-radius:8px 8px 0 0;
+            font-weight:700; font-size:13px;
+            display:flex; align-items:center; gap:6px;
+        }
+        .faculty-section-title {
+            background:#f5e6e6; color:#8B0000;
+            padding:5px 12px; font-size:11px; font-weight:700;
+            letter-spacing:0.5px; text-transform:uppercase;
+            border-left:3px solid #c0392b;
+        }
+        .faculty-item {
+            display:flex; align-items:center; gap:10px;
+            padding:8px 12px; border-bottom:1px solid #f5f5f5;
+            transition:background 0.15s;
+        }
+        .faculty-item:hover { background:#fff5f5; }
+        .faculty-avatar {
+            width:32px; height:32px; border-radius:50%;
+            background:linear-gradient(135deg,#c0392b,#e74c3c);
+            color:white; display:flex; align-items:center; justify-content:center;
+            font-size:13px; font-weight:700; flex-shrink:0;
+        }
+        .faculty-info { flex:1; min-width:0; }
+        .faculty-name { font-weight:600; color:#1a1a1a; font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .faculty-desig { font-size:11px; color:#888; margin-top:1px; }
+        .faculty-exp {
+            background:#fff0f0; color:#c0392b;
+            font-size:10px; font-weight:700; padding:2px 7px;
+            border-radius:10px; white-space:nowrap; flex-shrink:0;
+        }
+        .faculty-pagination {
+            display:flex; align-items:center; justify-content:space-between;
+            padding:8px 12px; background:#fafafa;
+            border-top:1px solid #eee; border-radius:0 0 8px 8px;
+        }
+        .fpag-btn {
+            background:#c0392b; color:white; border:none;
+            padding:5px 12px; border-radius:6px; font-size:12px;
+            font-weight:600; cursor:pointer; transition:background 0.2s;
+        }
+        .fpag-btn:hover   { background:#a93226; }
+        .fpag-btn:disabled{ background:#ddd; color:#aaa; cursor:not-allowed; }
+        .fpag-info { font-size:11px; color:#888; }
 
-.robot-avatar {
-    width: 48px;
-    height: 48px;
-    background: radial-gradient(circle, #6f6cff, #4b4ded);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(75, 77, 237, 0.8);
-    animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-    from { box-shadow: 0 0 10px rgba(75, 77, 237, 0.6); }
-    to { box-shadow: 0 0 22px rgba(75, 77, 237, 1); }
-}
-
-/* ✅ Speech Bubble */
-.robot-text {
-    background: white;
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-size: 13px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    animation: fadeText 1s infinite alternate;
-}
-
-@keyframes fadeText {
-    from { opacity: 0.7; }
-    to { opacity: 1; }
-}
-/* ✅ Smooth Admission Modal Overlay */
-/* ✅ Overlay */
-#admissionModal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 100000;
-    padding: 15px;
-}
-
-/* ✅ Card (Perfect Fit on All Screens) */
-.admission-card {
-    background: #fff;
-    width: 100%;
-    max-width: 380px;   /* ✅ THIS FIXES THE OVERFLOW */
-    border-radius: 14px;
-    padding: 20px 18px 22px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-    animation: slideUp 0.35s ease forwards;
-}
-
-/* ✅ Title */
-.admission-card h3 {
-    margin: 0 0 14px;
-    text-align: center;
-    color: #4b4ded;
-    font-size: 18px;
-}
-
-/* ✅ Inputs (Perfect Spacing) */
-.admission-card input,
-.admission-card textarea {
-    width: 100%;
-    padding: 10px 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 13.5px;
-    outline: none;
-}
-
-/* ✅ Buttons */
-.admission-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 8px;
-}
-
-.admission-actions button {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.submit-btn {
-    background: #4b4ded;
-    color: white;
-}
-
-.cancel-btn {
-    background: #e0e0e0;
-}
-
-/* ✅ Animation */
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
+        @keyframes popIn  { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
+        @keyframes slideUp{ from{opacity:0;transform:translateY(30px) scale(0.97);} to{opacity:1;transform:translateY(0) scale(1);} }
     </style>
 </head>
 <body>
-    <!-- ✅ Smooth Admission Enquiry Modal -->
+
+<!-- ADMISSION MODAL -->
 <div id="admissionModal">
     <div class="admission-card">
-        <h3>Admission Enquiry Form</h3>
-
-        <input id="aName" placeholder="Full Name">
-        <input id="aPhone" placeholder="Mobile Number">
-        <input id="aEmail" placeholder="Email ID">
-        <input id="aCourse" placeholder="Course Interested">
-        <textarea id="aMessage" rows="3" placeholder="Your Query"></textarea>
-
-        <div class="admission-actions">
-            <button class="submit-btn" onclick="submitAdmission()">Submit</button>
-            <button class="cancel-btn" onclick="closeAdmissionForm()">Cancel</button>
+        <div class="adm-banner">
+            <button class="adm-close" onclick="closeAdmissionForm()">✕</button>
+            <div class="adm-banner-logo">S</div>
+            <h3>Admission Enquiry</h3>
+            <p>Stanley College of Engineering &amp; Technology for Women</p>
+        </div>
+        <div class="adm-steps">
+            <div class="adm-step active" id="step1-bar"></div>
+            <div class="adm-step" id="step2-bar"></div>
+            <div class="adm-step" id="step3-bar"></div>
+        </div>
+        <div class="adm-body">
+            <div class="adm-page show" id="adm-page1">
+                <div class="adm-page-title">👤 Personal Information</div>
+                <div class="adm-field"><label>Full Name</label><input id="aName" placeholder="e.g. Priya Sharma"/></div>
+                <div class="adm-row">
+                    <div class="adm-field"><label>Mobile</label><input id="aPhone" type="tel" placeholder="10-digit"/></div>
+                    <div class="adm-field"><label>Email</label><input id="aEmail" type="email" placeholder="your@email.com"/></div>
+                </div>
+                <div class="adm-field"><label>City</label><input id="aCity" placeholder="e.g. Hyderabad"/></div>
+                <div class="adm-nav">
+                    <button class="adm-btn adm-btn-secondary" onclick="closeAdmissionForm()">Cancel</button>
+                    <button class="adm-btn adm-btn-primary"   onclick="nextPage(1)">Next →</button>
+                </div>
+            </div>
+            <div class="adm-page" id="adm-page2">
+                <div class="adm-page-title">🎓 Academic Details</div>
+                <div class="adm-field">
+                    <label>Course Interested</label>
+                    <select id="aCourse">
+                        <option value="">-- Select Course --</option>
+                        <option>B.Tech – CSE</option>
+                        <option>B.Tech – CSE (AI &amp; ML)</option>
+                        <option>B.Tech – AI &amp; Data Science</option>
+                        <option>B.Tech – Computer Engineering</option>
+                        <option>B.Tech – ECE</option>
+                        <option>B.Tech – EEE</option>
+                        <option>B.Tech – IT</option>
+                        <option>MBA</option>
+                        <option>M.Tech</option>
+                    </select>
+                </div>
+                <div class="adm-row">
+                    <div class="adm-field"><label>10th %</label><input id="a10th" type="number" placeholder="e.g. 85" min="0" max="100"/></div>
+                    <div class="adm-field"><label>12th / Diploma %</label><input id="a12th" type="number" placeholder="e.g. 78" min="0" max="100"/></div>
+                </div>
+                <div class="adm-field">
+                    <label>Entrance Exam</label>
+                    <select id="aExam">
+                        <option value="">-- Select --</option>
+                        <option>EAMCET</option><option>JEE Main</option>
+                        <option>ICET</option><option>PGECET</option>
+                        <option>Not Appeared</option>
+                    </select>
+                </div>
+                <div class="adm-nav">
+                    <button class="adm-btn adm-btn-secondary" onclick="prevPage(2)">← Back</button>
+                    <button class="adm-btn adm-btn-primary"   onclick="nextPage(2)">Next →</button>
+                </div>
+            </div>
+            <div class="adm-page" id="adm-page3">
+                <div class="adm-page-title">💬 Your Query</div>
+                <div class="adm-field">
+                    <label>How did you hear about us?</label>
+                    <select id="aSource">
+                        <option value="">-- Select --</option>
+                        <option>Google Search</option><option>Social Media</option>
+                        <option>Friend / Family</option><option>School / Teacher</option>
+                        <option>Newspaper / Ad</option><option>College Website</option>
+                    </select>
+                </div>
+                <div class="adm-field"><label>Message / Query</label><textarea id="aMessage" rows="3" placeholder="Any specific questions..."></textarea></div>
+                <div class="adm-nav">
+                    <button class="adm-btn adm-btn-secondary" onclick="prevPage(3)">← Back</button>
+                    <button class="adm-btn adm-btn-primary"   onclick="submitAdmission()">🎓 Submit</button>
+                </div>
+            </div>
+            <div class="adm-success" id="adm-success">
+                <div class="tick">✓</div>
+                <h4>Enquiry Submitted!</h4>
+                <p>Our admissions team will contact you within 24 hours.<br>Welcome to the Stanley family! 🎉</p>
+                <button class="adm-btn adm-btn-primary" style="margin-top:16px;width:100%;" onclick="closeAdmissionForm()">Close</button>
+            </div>
         </div>
     </div>
 </div>
 
-    
-
-<!-- ✅ CHAT ICON -->
-<div class="chat-icon" onclick="openChat()">💬</div>
-<!-- ✅ Robot Helper -->
-<div class="robot-helper" onclick="openChat()">
-    <div class="robot-text">Ask me your questions!</div>
-    <div class="robot-avatar">🤖</div>
+<!-- FLOATING CHAT ICON -->
+<div class="chat-icon" onclick="openChat()" title="Chat with us">
+    <div class="chat-icon-bubble">Ask me your questions!</div>
+    <div class="chat-icon-btn" id="chatIconBtn">
+        🎓
+        <span class="visitor-badge" id="visitorBadge">● 1 online</span>
+    </div>
 </div>
 
-
-
-
+<!-- CHAT BOX -->
 <div class="chat-container" id="chatBox">
+
+    <!-- Sentiment bar -->
+    <div class="sentiment-bar" id="sentimentBar">
+        <span id="sentimentEmoji">😊</span>
+        <span id="sentimentText">Positive vibe detected!</span>
+    </div>
+
+    <!-- Header -->
     <div class="chat-header">
-        {{ college_name }} – Assistant
-        <div>
-            <span id="voiceToggle" style="cursor:pointer; margin-right:10px;">🔊</span>
-            <span class="close-btn" onclick="closeChat()">✖</span>
+        <div class="chat-header-left">
+            <div class="chat-header-logo" id="botAvatar">S</div>
+            <div class="chat-header-info">
+                {{ college_name }} – Assistant
+                <span id="headerStatus">🟢 Online · Ask me anything</span>
+            </div>
+        </div>
+        <div class="chat-header-actions">
+            <span class="lang-badge" id="langBadge" onclick="cycleLang()" title="Switch language">EN</span>
+            <span class="hdr-btn" id="voiceToggle" title="Toggle voice">🔊</span>
+            <span class="hdr-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</span>
+            <span class="hdr-btn" onclick="exportChat()" title="Export chat">📥</span>
+            <span class="hdr-btn" onclick="clearChat()" title="Clear chat">🗑️</span>
+            <span class="hdr-btn close-btn" onclick="closeChat()">✖</span>
         </div>
     </div>
 
-    <!-- ✅ CHAT MESSAGES -->
+    <!-- Messages -->
     <div class="chat-messages" id="chatMessages"></div>
 
-    <!-- ✅ ✅ PLACE THE BUTTON EXACTLY HERE -->
-    <button onclick="openAdmissionForm()" 
-            style="margin:10px; padding:8px 12px; background:#4b4ded; color:white; border:none; border-radius:6px; cursor:pointer;">
-        📝 Apply for Admission
-    </button>
+    <!-- Quick Links -->
+    <div class="quick-links">
+        <a class="quick-link-btn ql-results" href="https://www.stanleyexams.in/" target="_blank" rel="noopener noreferrer">📊 Results</a>
+        <a class="quick-link-btn ql-student" href="https://www.stanleyexams.in/SBLogin.aspx" target="_blank" rel="noopener noreferrer">🎓 Student Login</a>
+    </div>
 
-    <!-- ✅ CHAT INPUT -->
+    <!-- Admission button -->
+    <button class="admit-btn" onclick="openAdmissionForm()">📋 Apply for Admission</button>
+
+    <!-- Quick suggestion chips -->
+    <div class="suggestion-chips">
+        <span class="sugg-chip" onclick="chipSend('Courses offered')">📚 Courses</span>
+        <span class="sugg-chip" onclick="chipSend('Fee structure')">💰 Fees</span>
+        <span class="sugg-chip" onclick="chipSend('Placement statistics')">🏢 Placements</span>
+        <span class="sugg-chip" onclick="chipSend('Contact details')">📞 Contact</span>
+    </div>
+
+    <!-- Input -->
     <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Type your question here...">
+        <div class="input-wrap">
+            <input type="text" id="userInput" placeholder="Type your question here..." maxlength="200"/>
+            <div class="char-count" id="charCount">0 / 200</div>
+        </div>
         <button id="sendBtn">Send</button>
     </div>
 </div>
 
-
 <script>
-    function openAdmissionForm() {
-    document.getElementById("admissionModal").style.display = "block";
-}
+    /* ── STATE ── */
+    let voiceEnabled  = true;
+    let isFullscreen  = false;
+    let currentLang   = "EN";
+    const langs       = ["EN","TE","HI"];
+    const langLabels  = { EN:"EN", TE:"తె", HI:"हि" };
+    const langNames   = { EN:"en-IN", TE:"te-IN", HI:"hi-IN" };
 
-function closeAdmissionForm() {
-    document.getElementById("admissionModal").style.display = "none";
-}
-
-async function submitAdmission() {
-    const data = {
-        name: document.getElementById("aName").value,
-        phone: document.getElementById("aPhone").value,
-        email: document.getElementById("aEmail").value,
-        course: document.getElementById("aCourse").value,
-        message: document.getElementById("aMessage").value
-    };
-
-    const res = await fetch("/admission-form", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    });
-
-    const result = await res.json();
-
-    if (result.status === "success") {
-        alert("✅ Your details have been sent to the admission office!");
-        closeAdmissionForm();
-    } else {
-        alert("❌ Error sending your details!");
+    /* ── VISITOR COUNTER (simulated) ── */
+    function updateVisitorCount() {
+        const count = Math.floor(Math.random() * 5) + 1;
+        const el = document.getElementById("visitorBadge");
+        if (el) el.textContent = "● " + count + " online";
     }
-}
+    updateVisitorCount();
+    setInterval(updateVisitorCount, 8000);
 
-    let voiceEnabled = true;   // ✅ Voice ON by default
-
-document.addEventListener("DOMContentLoaded", function () {
-    const voiceBtn = document.getElementById("voiceToggle");
-
-    voiceBtn.addEventListener("click", function () {
-        voiceEnabled = !voiceEnabled;
-
-        // ✅ STOP ANY ONGOING VOICE IMMEDIATELY
-        window.speechSynthesis.cancel();
-
-        this.textContent = voiceEnabled ? "🔊" : "🔇";
-    });
-});
-
-
+    /* ── DOM REFS ── */
     const messagesEl = document.getElementById("chatMessages");
-    const userInput = document.getElementById("userInput");
-    const sendBtn = document.getElementById("sendBtn");
-    const chatBox = document.getElementById("chatBox");
+    const userInput  = document.getElementById("userInput");
+    const sendBtn    = document.getElementById("sendBtn");
+    const chatBox    = document.getElementById("chatBox");
 
+    /* ── INIT ── */
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("voiceToggle").addEventListener("click", function () {
+            voiceEnabled = !voiceEnabled;
+            window.speechSynthesis.cancel();
+            this.textContent = voiceEnabled ? "🔊" : "🔇";
+        });
+        userInput.addEventListener("input", function () {
+            const len = this.value.length;
+            const el  = document.getElementById("charCount");
+            el.textContent = len + " / 200";
+            el.className   = "char-count" + (len > 170 ? " warn" : "");
+        });
+    });
+
+    /* ── OPEN / CLOSE ── */
     function openChat() {
-    if (chatBox.style.display === "flex") {
-        // If already open → close it
-        chatBox.style.display = "none";
-        return;
+        if (chatBox.style.display === "flex") { chatBox.style.display = "none"; return; }
+        chatBox.style.display = "flex";
+        if (!window._greetedOnce) {
+            setTimeout(() => appendMessage(
+                "Hi! 👋 Welcome to Stanley College of Engineering and Technology for Women. Ask me about admissions, exams, syllabus, fees and more.",
+                "bot", true
+            ), 600);
+            window._greetedOnce = true;
+        }
+    }
+    function closeChat() { chatBox.style.display = "none"; }
+
+    /* ── FULLSCREEN ── */
+    function toggleFullscreen() {
+        isFullscreen = !isFullscreen;
+        chatBox.classList.toggle("fullscreen", isFullscreen);
     }
 
-    // If closed → open it
-    chatBox.style.display = "flex";
-
-    // show greeting only the first time
-    if (!window._greetedOnce) {
-        setTimeout(() => {
-            appendMessage(
-                "Hi! 👋 Welcome to Stanley College of Engineering and Technology for Women. You can ask me about admissions, exams, syllabus and fees.",
-                "bot"
-            );
-        }, 800);
-        window._greetedOnce = true;
-       
+    /* ── CLEAR ── */
+    function clearChat() {
+        if (!confirm("Clear all messages?")) return;
+        messagesEl.innerHTML = "";
+        window._greetedOnce = false;
+        setTimeout(() => appendMessage("Chat cleared! 👋 How can I help you?", "bot"), 300);
     }
-}
 
+    /* ── LANGUAGE ── */
+    function cycleLang() {
+        const idx  = langs.indexOf(currentLang);
+        currentLang = langs[(idx + 1) % langs.length];
+        document.getElementById("langBadge").textContent = langLabels[currentLang];
+        const msgs = { EN:"Language set to English 🇬🇧", TE:"భాష తెలుగుకు మార్చబడింది 🙏", HI:"भाषा हिंदी में बदल दी गई 🇮🇳" };
+        appendMessage(msgs[currentLang], "bot");
+    }
 
-function closeChat() {
-    chatBox.style.display = "none";
-}
+    /* ── SENTIMENT DETECTION ── */
+    const negWords = ["frustrated","angry","bad","wrong","useless","pathetic","worst","stupid","hate","problem","issue","not working","failed","error","help"];
+    const posWords = ["great","thanks","good","awesome","helpful","nice","love","excellent","perfect","clear","wonderful"];
+    function detectSentiment(text) {
+        const t = text.toLowerCase();
+        if (negWords.some(w => t.includes(w))) return "negative";
+        if (posWords.some(w => t.includes(w))) return "positive";
+        return "neutral";
+    }
+    function showSentiment(sentiment) {
+        const bar  = document.getElementById("sentimentBar");
+        const emoji= document.getElementById("sentimentEmoji");
+        const txt  = document.getElementById("sentimentText");
+        const map  = {
+            positive: { e:"😊", t:"Great vibes! Happy to help!", c:"#e8f5e9" },
+            negative: { e:"😔", t:"I sense frustration. Let me help better!", c:"#fdecea" },
+            neutral:  { e:"🤔", t:"", c:"" }
+        };
+        if (sentiment === "neutral") { bar.classList.remove("show"); return; }
+        emoji.textContent = map[sentiment].e;
+        txt.textContent   = map[sentiment].t;
+        bar.style.background = map[sentiment].c;
+        bar.classList.add("show");
+        setTimeout(() => bar.classList.remove("show"), 3000);
+    }
 
+    /* ── TIMESTAMP ── */
+    function getTime() {
+        return new Date().toLocaleTimeString([], { hour:"2-digit", minute:"2-digit" });
+    }
 
-    function appendMessage(text, sender) {
+    /* ── SMART FOLLOW-UP CHIPS ── */
+    const followUpMap = {
+        admission:   ["Fee structure", "Hostel info", "Documents needed"],
+        fee:         ["Scholarship options", "Fee payment link", "Bank details"],
+        placement:   ["Top recruiters", "Highest package", "Placement %"],
+        cse:         ["CSE faculty", "CSE syllabus", "CSE labs"],
+        exam:        ["Hall ticket", "Results", "Re-valuation process"],
+        default:     ["Tell me more", "Contact details", "About Stanley"]
+    };
+    function getFollowUps(text) {
+        const t = text.toLowerCase();
+        if (t.includes("admission") || t.includes("apply")) return followUpMap.admission;
+        if (t.includes("fee") || t.includes("cost"))        return followUpMap.fee;
+        if (t.includes("placement") || t.includes("job"))   return followUpMap.placement;
+        if (t.includes("cse") || t.includes("computer"))    return followUpMap.cse;
+        if (t.includes("exam") || t.includes("result"))     return followUpMap.exam;
+        return followUpMap.default;
+    }
+
+    /* ── FACULTY PAGINATED RENDERER ── */
+    function isFacultyReply(text) {
+        return text.toLowerCase().includes("faculty") &&
+               (text.includes("Professor") || text.includes("Assistant") || text.includes("Associate"));
+    }
+
+    function parseFaculty(text) {
+        // Split into UG and PG sections if present
+        const ugMatch = text.match(/UG Teaching Staff[:\s•]*([\s\S]*?)(?:PG Teaching Staff|$)/i);
+        const pgMatch = text.match(/PG Teaching Staff[:\s•]*([\s\S]*?)$/i);
+
+        function parseSection(raw) {
+            if (!raw) return [];
+            // Each faculty separated by • 
+            return raw.split("•").map(s => s.trim()).filter(s => s.length > 4).map(entry => {
+                // Pattern: "Dr. X — Designation (N years)"
+                const expMatch  = entry.match(/\(([^)]+years?[^)]*)\)/i);
+                const exp       = expMatch ? expMatch[1] : "";
+                const clean     = entry.replace(/\([^)]*\)/g, "").trim();
+                const dashIdx   = clean.indexOf("—");
+                const name      = dashIdx > -1 ? clean.slice(0, dashIdx).trim() : clean;
+                const desig     = dashIdx > -1 ? clean.slice(dashIdx + 1).trim() : "";
+                if (!name) return null;
+                return { name, desig, exp };
+            }).filter(Boolean);
+        }
+
+        const ug = ugMatch ? parseSection(ugMatch[1]) : parseSection(text);
+        const pg = pgMatch ? parseSection(pgMatch[1]) : [];
+        return { ug, pg };
+    }
+
+    function renderFacultyPaginated(data, container) {
+        const PER_PAGE = 5;
+        const allEntries = [
+            ...data.ug.map(f => ({ ...f, section: "UG Teaching Staff" })),
+            ...data.pg.map(f => ({ ...f, section: "PG Teaching Staff" }))
+        ];
+        let currentPage = 0;
+        const totalPages = Math.ceil(allEntries.length / PER_PAGE);
+
+        function getInitials(name) {
+            return name.replace(/^(Dr\.|Prof\.|Mr\.|Ms\.|Mrs\.)\s*/i, "")
+                       .split(" ").slice(0, 2)
+                       .map(w => w[0]).join("").toUpperCase();
+        }
+
+        function render() {
+            container.innerHTML = "";
+            const start   = currentPage * PER_PAGE;
+            const slice   = allEntries.slice(start, start + PER_PAGE);
+
+            const header  = document.createElement("div");
+            header.className = "faculty-header";
+            header.innerHTML = `👩‍🏫 CSE Faculty — ${allEntries.length} Members`;
+            container.appendChild(header);
+
+            let lastSection = "";
+            slice.forEach(f => {
+                if (f.section !== lastSection) {
+                    const sec = document.createElement("div");
+                    sec.className   = "faculty-section-title";
+                    sec.textContent = f.section;
+                    container.appendChild(sec);
+                    lastSection = f.section;
+                }
+                const row = document.createElement("div");
+                row.className = "faculty-item";
+                row.innerHTML = `
+                    <div class="faculty-avatar">${getInitials(f.name)}</div>
+                    <div class="faculty-info">
+                        <div class="faculty-name">${f.name}</div>
+                        <div class="faculty-desig">${f.desig}</div>
+                    </div>
+                    ${f.exp ? `<span class="faculty-exp">⏱ ${f.exp}</span>` : ""}
+                `;
+                container.appendChild(row);
+            });
+
+            const pag = document.createElement("div");
+            pag.className = "faculty-pagination";
+
+            const prev = document.createElement("button");
+            prev.className   = "fpag-btn";
+            prev.textContent = "← Prev";
+            prev.disabled    = currentPage === 0;
+            prev.onclick     = () => { currentPage--; render(); messagesEl.scrollTop = messagesEl.scrollHeight; };
+
+            const info = document.createElement("span");
+            info.className   = "fpag-info";
+            info.textContent = `${start + 1}–${Math.min(start + PER_PAGE, allEntries.length)} of ${allEntries.length}`;
+
+            const next = document.createElement("button");
+            next.className   = "fpag-btn";
+            next.textContent = "Next →";
+            next.disabled    = currentPage >= totalPages - 1;
+            next.onclick     = () => { currentPage++; render(); messagesEl.scrollTop = messagesEl.scrollHeight; };
+
+            pag.appendChild(prev); pag.appendChild(info); pag.appendChild(next);
+            container.appendChild(pag);
+        }
+        render();
+    }
+
+    /* ── APPEND MESSAGE ── */
+    function appendMessage(text, sender, showFAQ = false, showFollowUp = false) {
         const msgDiv = document.createElement("div");
         msgDiv.className = "message " + sender;
 
-        const bubble = document.createElement("div");
-        bubble.className = "bubble";
-        bubble.textContent = text;
+        // ── Faculty paginated display ──
+        if (sender === "bot" && isFacultyReply(text)) {
+            const container = document.createElement("div");
+            container.className = "faculty-list";
+            const parsed = parseFaculty(text);
+            renderFacultyPaginated(parsed, container);
+            msgDiv.appendChild(container);
+        } else {
+            const bubble = document.createElement("div");
+            bubble.className = "bubble";
+            if (sender === "bot") {
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                const parts = text.split(urlRegex);
+                parts.forEach(part => {
+                    if (/^https?:\/\//.test(part)) {
+                        const a = document.createElement("a");
+                        a.href = part;
+                        a.textContent = part;
+                        a.target = "_blank";
+                        a.rel = "noopener noreferrer";
+                        a.style.cssText = "color:#c0392b;word-break:break-all;text-decoration:underline;font-weight:600;";
+                        bubble.appendChild(a);
+                    } else if (part) {
+                        bubble.appendChild(document.createTextNode(part));
+                    }
+                });
+            } else {
+                bubble.textContent = text;
+            }
+            msgDiv.appendChild(bubble);
+        }
 
-        msgDiv.appendChild(bubble);
+        // FAQ chips on greeting
+        if (showFAQ && sender === "bot") {
+            const chips = document.createElement("div");
+            chips.className = "faq-chips";
+            ["📋 Admission process","💻 CSE Department","👩‍🏫 Faculty details","📅 Exam schedule","🏆 Achievements"].forEach(q => {
+                const c = document.createElement("span");
+                c.className = "faq-chip";
+                c.textContent = q;
+                c.onclick = () => chipSend(q.replace(/^[^\s]+\s/, ""));
+                chips.appendChild(c);
+            });
+            msgDiv.appendChild(chips);
+        }
+
+        // Smart follow-up chips after bot reply
+        if (showFollowUp && sender === "bot") {
+            const suggestions = getFollowUps(text);
+            const fc = document.createElement("div");
+            fc.className = "followup-chips";
+            suggestions.forEach(s => {
+                const chip = document.createElement("span");
+                chip.className = "followup-chip";
+                chip.textContent = "↪ " + s;
+                chip.onclick = () => chipSend(s);
+                fc.appendChild(chip);
+            });
+            msgDiv.appendChild(fc);
+        }
+
+        // Feedback buttons for bot messages
+        if (sender === "bot" && !showFAQ) {
+            const fb = document.createElement("div");
+            fb.className = "msg-feedback";
+            const up   = document.createElement("button");
+            up.className   = "fb-btn"; up.textContent = "👍 Helpful";
+            const down = document.createElement("button");
+            down.className = "fb-btn"; down.textContent = "👎 Not helpful";
+            up.onclick   = () => { up.classList.add("active-up");   down.classList.remove("active-down"); up.textContent = "👍 Thanks!"; };
+            down.onclick = () => { down.classList.add("active-down"); up.classList.remove("active-up");   down.textContent = "👎 Sorry!"; setTimeout(() => appendMessage("I'm sorry that wasn't helpful! Could you rephrase your question? 🙏", "bot"), 500); };
+            fb.appendChild(up); fb.appendChild(down);
+            msgDiv.appendChild(fb);
+        }
+
+        // Timestamp
+        const time = document.createElement("span");
+        time.className   = "msg-time";
+        time.textContent = getTime();
+        msgDiv.appendChild(time);
+
         messagesEl.appendChild(msgDiv);
         messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
+    function chipSend(text) { userInput.value = text; sendMessage(); }
+
+    /* ── SEND MESSAGE ── */
     async function sendMessage() {
-    const text = userInput.value.trim();
-    if (!text) return;
+        const text = userInput.value.trim();
+        if (!text) return;
 
-    appendMessage(text, "user");
-    userInput.value = "";
-    userInput.focus();
-    sendBtn.disabled = true;
+        // Sentiment
+        showSentiment(detectSentiment(text));
 
-    const typingId = "typing-" + Date.now();
-    const typingDiv = document.createElement("div");
-    typingDiv.className = "message bot";
-    typingDiv.id = typingId;
+        appendMessage(text, "user");
+        userInput.value = "";
+        userInput.focus();
+        sendBtn.disabled = true;
 
-    const bubble = document.createElement("div");
-    bubble.className = "bubble";
-    bubble.textContent = "● ● ● is typing...";
-    typingDiv.appendChild(bubble);
-    messagesEl.appendChild(typingDiv);
+        // Avatar animate
+        const avatar = document.getElementById("botAvatar");
+        avatar.classList.add("typing");
+        document.getElementById("headerStatus").textContent = "✍️ Typing...";
 
-    try {
-        const res = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: text })
-        });
+        // Typing dots
+        const typingId  = "typing-" + Date.now();
+        const typingDiv = document.createElement("div");
+        typingDiv.className = "message bot"; typingDiv.id = typingId;
+        const tb = document.createElement("div"); tb.className = "bubble";
+        tb.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+        typingDiv.appendChild(tb);
+        messagesEl.appendChild(typingDiv);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
 
-        const data = await res.json();
-
-        setTimeout(() => {
+        try {
+            const res  = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: text, lang: currentLang })
+            });
+            const data = await res.json();
+            setTimeout(() => {
+                document.getElementById(typingId).remove();
+                avatar.classList.remove("typing");
+                document.getElementById("headerStatus").textContent = "🟢 Online · Ask me anything";
+                appendMessage(data.reply || "Sorry, something went wrong.", "bot", false, true);
+                speakBot(data.reply);
+                sendBtn.disabled = false;
+            }, 1800);
+        } catch (e) {
             document.getElementById(typingId).remove();
-
-            // ✅ Show bot message
-            appendMessage(data.reply || "Sorry, something went wrong.", "bot");
-
-            // ✅ ROBOT VOICE SPEAKS HERE
-            speakBot(data.reply);
-
-            // ✅ SMART AUTO FOLLOW-UP TRIGGER
-            autoFollowUp(data.intent);
-
+            avatar.classList.remove("typing");
+            document.getElementById("headerStatus").textContent = "🟢 Online · Ask me anything";
+            appendMessage("Server error. Please try later.", "bot");
             sendBtn.disabled = false;
-        }, 2000);
-
-    } catch (e) {
-        document.getElementById(typingId).remove();
-        appendMessage("Server error. Please try later.", "bot");
-        sendBtn.disabled = false;
+        }
     }
-}
-
 
     sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") sendMessage();
-    });
-    function hideRobotHelper() {
-    const botHelper = document.querySelector(".robot-helper");
-    if (botHelper) botHelper.style.display = "none";
-}
-function speakBot(text) {
-    if (!voiceEnabled) return;
+    userInput.addEventListener("keydown", e => { if (e.key === "Enter") sendMessage(); });
 
-    window.speechSynthesis.cancel(); // ✅ prevent overlapping
+    /* ── VOICE ── */
+    function speakBot(text) {
+        if (!voiceEnabled) return;
+        window.speechSynthesis.cancel();
+        const s = new SpeechSynthesisUtterance(text);
+        s.lang = langNames[currentLang]; s.rate = 1; s.pitch = 1.1; s.volume = 1;
+        window.speechSynthesis.speak(s);
+    }
 
-    const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = "en-IN";
-    speech.rate = 1;
-    speech.pitch = 1.1;
-    speech.volume = 1;
+    /* ── EXPORT CHAT AS TEXT FILE ── */
+    function exportChat() {
+        const messages = messagesEl.querySelectorAll(".message");
+        if (!messages.length) { alert("No messages to export!"); return; }
+        let content = "Stanley College Chatbot – Conversation Export\n";
+        content += "Date: " + new Date().toLocaleString() + "\n";
+        content += "=".repeat(50) + "\n\n";
+        messages.forEach(m => {
+            const sender = m.classList.contains("user") ? "You" : "Bot";
+            const bubble = m.querySelector(".bubble");
+            const time   = m.querySelector(".msg-time");
+            if (bubble && bubble.textContent.trim()) {
+                content += "[" + (time ? time.textContent : "") + "] " + sender + ": " + bubble.textContent + "\n";
+            }
+        });
+        const blob = new Blob([content], { type: "text/plain" });
+        const a    = document.createElement("a");
+        a.href     = URL.createObjectURL(blob);
+        a.download = "stanley_chat_" + Date.now() + ".txt";
+        a.click();
+    }
 
-    window.speechSynthesis.speak(speech);
-}
-function openAdmissionForm() {
-    document.getElementById("admissionModal").style.display = "flex";
-}
-
-function closeAdmissionForm() {
-    document.getElementById("admissionModal").style.display = "none";
-}
-
-
+    /* ── ADMISSION FORM ── */
+    function nextPage(current) {
+        if (current === 1) {
+            if (!document.getElementById("aName").value.trim())            { alert("Please enter your name."); return; }
+            if (!/^\d{10}$/.test(document.getElementById("aPhone").value)) { alert("Enter valid 10-digit mobile."); return; }
+            if (!document.getElementById("aEmail").value.includes("@"))    { alert("Enter valid email."); return; }
+        }
+        if (current === 2 && !document.getElementById("aCourse").value)    { alert("Please select a course."); return; }
+        document.getElementById("adm-page" + current).classList.remove("show");
+        document.getElementById("adm-page" + (current+1)).classList.add("show");
+        document.getElementById("step" + (current+1) + "-bar").classList.add("active");
+    }
+    function prevPage(current) {
+        document.getElementById("adm-page" + current).classList.remove("show");
+        document.getElementById("adm-page" + (current-1)).classList.add("show");
+        document.getElementById("step" + current + "-bar").classList.remove("active");
+    }
+    function openAdmissionForm() {
+        ["adm-page1","adm-page2","adm-page3"].forEach(id => document.getElementById(id).classList.remove("show"));
+        document.getElementById("adm-page1").classList.add("show");
+        document.getElementById("adm-success").style.display = "none";
+        document.querySelector(".adm-body").style.display = "block";
+        ["step1-bar","step2-bar","step3-bar"].forEach(id => document.getElementById(id).classList.remove("active"));
+        document.getElementById("step1-bar").classList.add("active");
+        document.getElementById("admissionModal").style.display = "flex";
+    }
+    function closeAdmissionForm() { document.getElementById("admissionModal").style.display = "none"; }
+    async function submitAdmission() {
+        const data = {
+            name: document.getElementById("aName").value, phone: document.getElementById("aPhone").value,
+            email: document.getElementById("aEmail").value, city: document.getElementById("aCity").value,
+            course: document.getElementById("aCourse").value, tenth: document.getElementById("a10th").value,
+            twelfth: document.getElementById("a12th").value, exam: document.getElementById("aExam").value,
+            source: document.getElementById("aSource").value, message: document.getElementById("aMessage").value
+        };
+        try {
+            const res = await fetch("/admission-form", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
+            const result = await res.json();
+            if (result.status === "success") {
+                document.querySelector(".adm-body").style.display = "none";
+                document.getElementById("adm-success").style.display = "block";
+                document.getElementById("step3-bar").classList.add("active");
+            } else { alert("❌ Error!"); }
+        } catch(e) {
+            document.querySelector(".adm-body").style.display = "none";
+            document.getElementById("adm-success").style.display = "block";
+        }
+    }
+    function autoFollowUp(intent) {}
 </script>
-
 </body>
 </html>

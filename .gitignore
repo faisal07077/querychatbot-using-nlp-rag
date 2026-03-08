@@ -1,0 +1,23 @@
+# Secret keys - NEVER upload
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Vector store (large files, can be rebuilt)
+data/vector_store/
+
+# VS Code
+.idea/
+.vscode/
+
+# Virtual environment
+venv/
+env/
+
+# OS files
+.DS_Store
+Thumbs.db

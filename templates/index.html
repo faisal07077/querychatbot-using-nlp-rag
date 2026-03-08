@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Home | Stanley College</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Helvetica Neue',Arial,sans-serif;background:#fff;color:#333;overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+img{max-width:100%;display:block;}
+
+/* HEADER */
+.header{background:#fff;border-bottom:1px solid #ddd;padding:10px 24px;}
+.header-inner{max-width:1380px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.logo-wrap{display:flex;align-items:center;gap:10px;}
+.fallback-logo{display:flex;align-items:center;gap:10px;}
+.logo-crest{width:68px;height:68px;border-radius:50%;background:#8B0000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:900;font-family:serif;flex-shrink:0;border:3px solid #c00;}
+.logo-text-main{font-size:26px;font-weight:900;color:#8B0000;font-family:serif;letter-spacing:-0.5px;line-height:1;}
+.logo-text-sub{font-size:10.5px;color:#444;line-height:1.35;max-width:280px;}
+.logo-auto{display:inline-block;background:#8B0000;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;margin-top:3px;border-radius:1px;}
+.accred-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.accred-logos{display:flex;align-items:center;gap:10px;}
+.accred-logos img{height:54px;width:auto;object-fit:contain;}
+.accred-links{display:flex;gap:6px;}
+.accred-link{border:1px solid #bbb;border-radius:4px;padding:4px 10px;font-size:12px;color:#333;background:#fff;}
+.accred-link:hover{background:#f5f5f5;}
+.social-row{display:flex;gap:8px;align-items:center;}
+.social-row img{height:22px;width:22px;}
+
+/* NAV */
+nav{background:#fff;border-bottom:2.5px solid #8B0000;position:sticky;top:0;z-index:200;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.nav-list{max-width:1380px;margin:0 auto;display:flex;align-items:center;list-style:none;}
+.nav-list li a{display:block;padding:13px 16px;font-size:13.5px;font-weight:500;color:#222;white-space:nowrap;position:relative;}
+.nav-list li a:hover{color:#8B0000;}
+.nav-list li a.active{color:#8B0000;}
+.nav-list li a.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:#8B0000;}
+
+/* QUICKBAR */
+.quickbar{background:#f7f7f7;border-bottom:1px solid #e5e5e5;padding:8px 24px;}
+.quickbar-inner{max-width:1380px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:8px;}
+.qs{display:flex;align-items:center;gap:5px;border:1px solid #ccc;border-radius:20px;padding:5px 14px;background:#fff;font-size:12.5px;color:#888;cursor:text;}
+.qb{border:1px solid #bbb;border-radius:20px;padding:5px 13px;font-size:12.5px;color:#333;background:#fff;cursor:pointer;}
+.qb:hover{background:#eee;}
+.qb.orange{color:#e87722;border-color:#e87722;}
+.qb.orange:hover{background:#e87722;color:#fff;}
+.qb.blue{color:#1a73e8;border-color:#1a73e8;}
+.qb.blue:hover{background:#1a73e8;color:#fff;}
+.qb.grad-blue{background:#1a73e8;color:#fff;border-color:#1a73e8;}
+.qb.grad-blue:hover{background:#1558b5;}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 420px;background:#f2f1ee;min-height:440px;}
+.hero-left{position:relative;display:flex;align-items:flex-end;padding:50px 60px 50px 48px;overflow:hidden;}
+.hero-gradient{position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:.15;pointer-events:none;}
+.hero-txt{position:relative;z-index:2;}
+.hero-txt .redefine{font-size:17px;color:#666;margin-bottom:10px;}
+.hero-txt h1{font-size:clamp(26px,3vw,46px);font-weight:400;line-height:1.2;color:#111;}
+.hl-blue{display:inline-block;background:#1a73e8;color:#fff;padding:1px 7px;border-radius:2px;font-weight:700;}
+.hl-orange{display:inline-block;background:#e87722;color:#fff;padding:1px 7px;border-radius:2px;font-style:italic;}
+.hero-right{display:grid;grid-template-rows:auto 1fr;grid-template-columns:1fr 1fr;}
+.placement-panel{grid-column:1/3;background:#fff;padding:16px 20px 12px;border-left:1px solid #ddd;display:flex;flex-direction:column;gap:2px;}
+.plabel{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#c00;letter-spacing:.5px;}
+.plabel::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:#c00;}
+.pnum{font-size:68px;font-weight:900;color:#111;line-height:1;}
+.pcounting{font-size:13px;color:#555;}
+.photo-cell{overflow:hidden;display:flex;align-items:stretch;}
+.photo-cell img{width:100%;height:100%;object-fit:cover;}
+.photo-cell.blue-bg{background:#1a73e8;}
+.photo-cell.yellow-bg{background:#f5c518;}
+
+/* MARQUEE */
+.mq-wrap{background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;padding:14px 0;overflow:hidden;}
+.mq-track{display:flex;gap:44px;animation:mqs 28s linear infinite;width:max-content;}
+.mq-track img{height:52px;width:auto;object-fit:contain;}
+@keyframes mqs{to{transform:translateX(-50%);}}
+
+/* MAIN BODY */
+.body-wrap{max-width:1380px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:1fr 340px;gap:30px;}
+
+/* Notifications */
+.notif-head{font-size:15px;font-weight:700;color:#8B0000;border-bottom:2px solid #8B0000;padding-bottom:6px;margin-bottom:0;}
+.ntabs{display:flex;}
+.ntab{padding:8px 20px;font-size:12.5px;font-weight:600;border:1px solid #ddd;border-bottom:none;background:#f0f0f0;cursor:pointer;color:#555;}
+.ntab.on{background:#8B0000;color:#fff;border-color:#8B0000;}
+.nlist{border:1px solid #ddd;}
+.nitem{display:flex;gap:14px;padding:13px 14px;border-bottom:1px solid #f2f2f2;cursor:pointer;}
+.nitem:hover{background:#fafafa;}
+.nitem:last-child{border-bottom:none;}
+.ndate{font-size:11px;color:#999;min-width:55px;padding-top:2px;}
+.ntitle{font-size:13.5px;color:#1a1a1a;line-height:1.45;}
+.ntitle:hover{color:#8B0000;}
+.nbadge{display:inline-block;background:#c00;color:#fff;font-size:9px;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle;}
+.nfooter{display:flex;align-items:center;gap:14px;margin-top:10px;}
+.vmore{font-size:13px;color:#8B0000;font-weight:600;}
+.vmore:hover{text-decoration:underline;}
+.pager{display:flex;gap:3px;}
+.pg{width:21px;height:21px;border:1px solid #ccc;border-radius:2px;display:grid;place-items:center;font-size:11px;cursor:pointer;}
+.pg.on{background:#8B0000;color:#fff;border-color:#8B0000;}
+
+/* Sidebar */
+.sidebar{display:flex;flex-direction:column;gap:14px;}
+.sw{border:1px solid #ddd;border-radius:3px;overflow:hidden;}
+.sw-h{background:#8B0000;color:#fff;padding:9px 14px;font-size:12.5px;font-weight:700;}
+.sw-b{padding:12px 14px;background:#fff;text-align:center;}
+.sw-b p{font-size:12px;color:#555;margin-bottom:8px;}
+.sw-btn{display:block;width:100%;padding:8px;border:none;border-radius:3px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;color:#fff;}
+.sw-btn.red{background:#8B0000;}
+.sw-btn.blue{background:#1a73e8;}
+.sw-btn:hover{opacity:.88;}
+.sw-big{font-size:40px;font-weight:900;color:#8B0000;line-height:1;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <!-- Real logo from Wix -->
+      <img src="https://static.wixstatic.com/media/10b4dc_3a8dc09cf9e14aa784f2471a306a0021~mv2.png/v1/crop/x_65,y_64,w_6030,h_1674/fill/w_329,h_91,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Logo%20Stanley%20(2).png"
+        alt="Stanley College" style="height:80px;width:auto;"
+        onerror="this.style.display='none';document.getElementById('fb-logo').style.display='flex'"/>
+      <!-- Fallback -->
+      <div id="fb-logo" class="fallback-logo" style="display:none;">
+        <div class="logo-crest">S</div>
+        <div>
+          <div class="logo-text-main">STANLEY</div>
+          <div class="logo-text-sub">COLLEGE OF ENGINEERING &amp; TECHNOLOGY FOR WOMEN<br><em style="font-size:10px;">(Private Un-aided Non-minority UGC Autonomous Institution)</em><br>Estd. 2008</div>
+          <span class="logo-auto">An Autonomous Institution</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="accred-side">
+      <div class="accred-logos">
+        <img src="https://static.wixstatic.com/media/10b4dc_d5a0af46c0c64570a0b4bf0b133caa94~mv2.jpg/v1/fill/w_99,h_68,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Naac%20Logo.jpg" alt="NAAC"/>
+        <img src="https://static.wixstatic.com/media/10b4dc_9554735fabef43d9b418f9a9eba35580~mv2.png/v1/fill/w_78,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1200px-National_Board_of_Accreditation_s.png" alt="NBA"/>
+        <img src="https://static.wixstatic.com/media/10b4dc_5538004ae8324fb9b494a0e64f0eab35~mv2.png/v1/fill/w_62,h_62,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/All_India_Council_for_Technical_Educatio.png" alt="AICTE"/>
+        <img src="https://static.wixstatic.com/media/10b4dc_c39996bd521f49748e3af07b40c4c462~mv2.png/v1/fill/w_68,h_68,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Osmania_University_Logo.png" alt="Osmania"/>
+        <img src="https://static.wixstatic.com/media/10b4dc_9003c7aa56a346a096919e33b056275f~mv2.jpg/v1/crop/x_49,y_0,w_401,h_349/fill/w_78,h_68,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Linkedin%20Page%20Cover%20Image%20copy%202.jpg" alt="STLW" style="border-radius:3px;"/>
+        <div style="font-size:9px;color:#555;text-align:center;line-height:1.3;">College<br>Code</div>
+      </div>
+      <div class="accred-links">
+        <a href="https://www.stanley.edu.in/aicte-approvals" class="accred-link" target="_blank">AICTE approvals</a>
+        <a href="https://www.stanley.edu.in/_files/ugd/d15c6e_0eab14c2aeb743669274bb9279d8d2e1.pdf" class="accred-link" target="_blank">Mandatory Disclosure</a>
+        <a href="https://www.stanley.edu.in/_files/ugd/d15c6e_f4fff021b163466296899b6f3c51d054.pdf" class="accred-link" target="_blank">NBA Accreditation Status</a>
+      </div>
+      <div class="social-row">
+        <a href="https://in.linkedin.com/company/stanleyhyd" target="_blank"><img src="https://static.wixstatic.com/media/11062b_7cf73902d06c4f3685c379a21c6c8285~mv2.png/v1/fill/w_28,h_28,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_7cf73902d06c4f3685c379a21c6c8285~mv2.png" alt="in"/></a>
+        <a href="https://www.instagram.com/stanleywomenscollege/" target="_blank"><img src="https://static.wixstatic.com/media/11062b_55e4be1e75564866b6c28290f9a9d271~mv2.png/v1/fill/w_28,h_28,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_55e4be1e75564866b6c28290f9a9d271~mv2.png" alt="ig"/></a>
+        <a href="https://x.com/stanleywomen" target="_blank"><img src="https://static.wixstatic.com/media/11062b_bc7125385fcf422cad29febe20a2b237c~mv2.png/v1/fill/w_28,h_28,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_bc7125385fcf422cad29febe20a2b237c~mv2.png" alt="X" onerror="this.outerHTML='<b style=font-size:15px>𝕏</b>'"/></a>
+        <a href="https://www.youtube.com/channel/UCgpeAJUIMENXcHZdBfQlmjA" target="_blank"><img src="https://static.wixstatic.com/media/11062b_8dcadfa428954b1d919f8499f75aa27a~mv2.png/v1/fill/w_28,h_28,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_8dcadfa428954b1d919f8499f75aa27a~mv2.png" alt="yt"/></a>
+        <a href="https://www.facebook.com/stanleywomenscollege/" target="_blank"><img src="https://static.wixstatic.com/media/11062b_2381e8a6e7444f4f902e7b649aa3f0ac~mv2.png/v1/fill/w_28,h_28,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_2381e8a6e7444f4f902e7b649aa3f0ac~mv2.png" alt="fb"/></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <ul class="nav-list">
+    <li><a href="#" class="active">Home</a></li>
+    <li><a href="https://www.stanley.edu.in/news-and-events" target="_blank">News and Events</a></li>
+    <li><a href="https://www.stanley.edu.in/about" target="_blank">About Us</a></li>
+    <li><a href="https://www.stanley.edu.in/courses-offered" target="_blank">Academics</a></li>
+    <li><a href="https://www.stanley.edu.in/departments" target="_blank">Departments</a></li>
+    <li><a href="https://www.stanley.edu.in/research" target="_blank">Research &amp; Development</a></li>
+    <li><a href="https://www.stanley.edu.in/infrastrucutre" target="_blank">Facilities</a></li>
+    <li><a href="https://www.stanley.edu.in/placements" target="_blank">Placements</a></li>
+    <li><a href="#" style="padding:13px 16px;font-size:13.5px;">More ▾</a></li>
+  </ul>
+</nav>
+
+<!-- QUICKBAR -->
+<div class="quickbar">
+  <div class="quickbar-inner">
+    <div class="qs">🔍 search...</div>
+    <a href="https://www.stanley.edu.in/nba" target="_blank"><button class="qb">NBA</button></a>
+    <a href="https://www.nirfindia.org/Rankings/2025/EngineeringRanking.html" target="_blank"><button class="qb">NIRF</button></a>
+    <a href="https://www.stanley.edu.in/services-4" target="_blank"><button class="qb">Examination Branch</button></a>
+    <a href="https://www.stanley.edu.in/payment-links" target="_blank"><button class="qb">Fee Payment</button></a>
+    <a href="https://www.stanley.edu.in/post/student-login" target="_blank"><button class="qb orange">Student Login ⊕</button></a>
+    <a href="https://alumni.stanley.edu.in/" target="_blank"><button class="qb blue">Alumni Network ⊕</button></a>
+    <a href="https://www.stanley.edu.in/post/graduation-day-meet-registration-form-28-march-2026" target="_blank"><button class="qb grad-blue">Graduation Day - 2026 ➔</button></a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <img class="hero-gradient"
+      src="https://static.wixstatic.com/media/d15c6e_cf570e055fbf4a27913e16cdc1afadba~mv2.png/v1/fill/w_1421,h_438,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/d15c6e_cf570e055fbf4a27913e16cdc1afadba~mv2.png"
+      alt="" onerror="this.style.display='none'"/>
+    <div class="hero-txt">
+      <p class="redefine">Redefining Possibilities</p>
+      <h1>
+        <span class="hl-blue">Women</span> at the Forefront of<br>
+        Engineering Excellence,<br>
+        Shaping the <span class="hl-orange">World's Future</span>
+      </h1>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <!-- Placement panel top-full-width -->
+    <div class="placement-panel">
+      <span class="plabel">PLACEMENTS-2025</span>
+      <div class="pnum">750<span style="font-size:38px;font-weight:900;">+</span></div>
+      <a href="https://www.stanley.edu.in/recent-events" class="pcounting" target="_blank">&amp; counting</a>
+    </div>
+    <!-- Student photos -->
+    <div class="photo-cell blue-bg">
+      <img src="https://static.wixstatic.com/media/d15c6e_30a5f79888624326898a4cd6810454c6~mv2.png/v1/fill/w_428,h_361,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d15c6e_30a5f79888624326898a4cd6810454c6~mv2.png"
+           alt="Student" onerror="this.style.display='none'"/>
+    </div>
+    <div class="photo-cell yellow-bg">
+      <img src="https://static.wixstatic.com/media/d15c6e_799ec60dfe9441bc8db3f5ee21e44b02~mv2.png/v1/fill/w_980,h_140,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/d15c6e_799ec60dfe9441bc8db3f5ee21e44b02~mv2.png"
+           alt="Student" onerror="this.style.display='none'"/>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="mq-wrap">
+  <div class="mq-track">
+    <img src="https://static.wixstatic.com/media/d15c6e_280cf75ace0d4538aa6d7c7731341786~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_a8f662649a0f44a5b6f8f52f1a2f3efc~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_38951ef10c3244f6b1378cebc8083f4f~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_f1f9c599b4ca46eeaed2289809c4be97~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_a8e2e13a26184b88b1c0c1f9b2a48237~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_4ce1baa2d9354e319f2e53faf6cc8c08~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_2f1defb5083a411bb43fa7b035d105a9~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_c2c9c4e54f1f46d590dfd9ac15e5e5d5~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_dbd09e026b584ad6b24fd796e8a15d7f~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <!-- duplicate -->
+    <img src="https://static.wixstatic.com/media/d15c6e_280cf75ace0d4538aa6d7c7731341786~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_a8f662649a0f44a5b6f8f52f1a2f3efc~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_38951ef10c3244f6b1378cebc8083f4f~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_f1f9c599b4ca46eeaed2289809c4be97~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_a8e2e13a26184b88b1c0c1f9b2a48237~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_4ce1baa2d9354e319f2e53faf6cc8c08~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_2f1defb5083a411bb43fa7b035d105a9~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_c2c9c4e54f1f46d590dfd9ac15e5e5d5~mv2.png" alt="" onerror="this.style.display='none'"/>
+    <img src="https://static.wixstatic.com/media/d15c6e_dbd09e026b584ad6b24fd796e8a15d7f~mv2.png" alt="" onerror="this.style.display='none'"/>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+
+  <!-- NOTIFICATIONS -->
+  <div>
+    <p class="notif-head">Notifications</p>
+    <div class="ntabs">
+      <button class="ntab on" onclick="switchTab('g',this)">General Notifications</button>
+      <button class="ntab" onclick="switchTab('e',this)">Exam Notifications</button>
+    </div>
+
+    <div id="tab-g" class="nlist">
+      <div class="nitem">
+        <span class="ndate">4 hrs ago</span>
+        <a class="ntitle" href="https://www.stanley.edu.in/post/the-grace-gala-26-a-tribute-to-talent-womanhood" target="_blank">
+          The Grace Gala '26 – A Tribute to Talent &amp; Womanhood<span class="nbadge">NEW</span>
+        </a>
+      </div>
+      <div class="nitem">
+        <span class="ndate">Feb 27</span>
+        <a class="ntitle" href="https://www.stanley.edu.in/post/graduation-day-meet-registration-form-28-march-2026" target="_blank">
+          Graduation Day Meet – Registration Form (4th April 2026)
+        </a>
+      </div>
+      <div class="nitem">
+        <span class="ndate">Feb 25</span>
+        <a class="ntitle" href="https://www.stanley.edu.in/post/scholarship-circular" target="_blank">
+          Scholarship Circular
+        </a>
+      </div>
+      <div class="nitem">
+        <span class="ndate">Feb 21</span>
+        <a class="ntitle" href="https://www.stanley.edu.in/post/aicwic-26-day-1-highlights-stanley-college-of-engineering-technology-for-women-hyderabad" target="_blank">
+          AICWiC'26 – Highlights, Stanley College of Engineering &amp; Technology for Women, Hyderabad
+        </a>
+      </div>
+    </div>
+
+    <div id="tab-e" class="nlist" style="display:none;">
+      <div class="nitem">
+        <span class="ndate">Feb 8</span>
+        <a class="ntitle" href="https://www.stanley.edu.in/post/m-tech-i-semester-b25-regular-examinations-february-2026" target="_blank">
+          ME MTech MBA 1st Semester February 2026 Exams Time table
+        </a>
+      </div>
+      <div class="nitem">
+        <span class="ndate">Feb 2</span>
+        <a class="ntitle" href="https://www.stanley.edu.in/post/be-minor-degree-exam-notification-feb-2026" target="_blank">
+          BE Minor Degree Exam Notification- FEB 2026
+        </a>
+      </div>
+      <div class="nitem">
+        <span class="ndate">Feb 2</span>
+        <a class="ntitle" href="https://www.stanley.edu.in/post/mba-1st-sem-exam-fee-notification-feb-2026" target="_blank">
+          MBA 1ST SEM Exam Fee Notification-FEB 2026
+        </a>
+      </div>
+      <div class="nitem">
+        <span class="ndate">Feb 2</span>
+        <a class="ntitle" href="https://www.stanley.edu.in/post/me-m-tech-1st-sem-exam-fee-notification-feb-2026" target="_blank">
+          ME M-Tech 1ST SEM Exam Fee Notification- FEB 2026
+        </a>
+      </div>
+    </div>
+
+    <div class="nfooter">
+      <a href="https://www.stanley.edu.in/news-and-events" class="vmore" target="_blank">View More →</a>
+      <div class="pager">
+        <div class="pg on">1</div><div class="pg">2</div><div class="pg">3</div><div class="pg">4</div><div class="pg">5</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sw">
+      <div class="sw-h">💳 Online Fee Payment</div>
+      <div class="sw-b">
+        <p>Payment Link</p>
+        <a href="https://www.stanley.edu.in/payment-links" target="_blank"><button class="sw-btn blue">Pay Now</button></a>
+      </div>
+    </div>
+    <div class="sw">
+      <div class="sw-h">🏆 Highest Placements</div>
+      <div class="sw-b">
+        <p>During Current Academic Year</p>
+        <a href="https://www.stanley.edu.in/placements" target="_blank"><button class="sw-btn red">View Now</button></a>
+      </div>
+    </div>
+    <div class="sw">
+      <div class="sw-h">🎓 University Ranks</div>
+      <div class="sw-b">
+        <div class="sw-big">70</div>
+        <p>University Ranks</p>
+        <a href="https://www.stanley.edu.in/_files/ugd/10b4dc_1d702def00ab47f49310d875358bb3ba.pdf" target="_blank"><button class="sw-btn blue">View Now</button></a>
+      </div>
+    </div>
+    <div class="sw">
+      <div class="sw-h">📋 Mandatory Disclosure</div>
+      <div class="sw-b">
+        <a href="https://www.stanley.edu.in/_files/ugd/d15c6e_0eab14c2aeb743669274bb9279d8d2e1.pdf" target="_blank"><button class="sw-btn red">View Now</button></a>
+      </div>
+    </div>
+    <div class="sw">
+      <div class="sw-h">📊 Audited Statements</div>
+      <div class="sw-b">
+        <a href="https://www.stanley.edu.in/post/audited-statements" target="_blank"><button class="sw-btn blue">View Now</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'chatbot.html' %}
+
+<script>
+function switchTab(id, btn) {
+  document.getElementById('tab-g').style.display = id==='g' ? 'block':'none';
+  document.getElementById('tab-e').style.display = id==='e' ? 'block':'none';
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+</script>
+</body>
+</html>

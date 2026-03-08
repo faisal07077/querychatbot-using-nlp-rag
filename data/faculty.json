@@ -1,0 +1,425 @@
+[
+  {
+    "name": "Dr. B.V. Ramana Murthy",
+    "designation": "Professor & Vice Principal",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "24 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. Y.V.S. Sai Pragathi",
+    "designation": "Professor & Director Academics",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "23 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. R. Madana Mohana",
+    "designation": "Professor & HoD",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "20 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. R. Manivannan",
+    "designation": "Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.E, Ph.D",
+    "experience": "19 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. P.R. Anisha",
+    "designation": "Associate Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "11 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. C. Kishor Kumar Reddy",
+    "designation": "Associate Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "11 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. M. Swapna",
+    "designation": "Associate Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "20 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. Potu Narayana",
+    "designation": "Associate Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "9 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. Shivani Yadavo",
+    "designation": "Associate Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "8 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. D. Radhika",
+    "designation": "Associate Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "12 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. M. Sowmya",
+    "designation": "Associate Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "18 years",
+    "type": "Regular"
+  },
+  {
+    "name": "B. Gnana Prasuna",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "14 years",
+    "type": "Regular"
+  },
+  {
+    "name": "R. Bucha Rao",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "15 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Sumayya Afreen",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "11 years",
+    "type": "Regular"
+  },
+  {
+    "name": "K. Srilatha",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "9 years",
+    "type": "Regular"
+  },
+  {
+    "name": "M. Swathisree",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "8 years",
+    "type": "Regular"
+  },
+  {
+    "name": "G. Saraswathi",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "8 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Thakur Monika Singh",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "8 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Shugufta Fatima",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "8 years",
+    "type": "Regular"
+  },
+  {
+    "name": "V. Anitha",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "5 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Veena Kumari Pujari",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "4 years",
+    "type": "Regular"
+  },
+  {
+    "name": "M. Sai Ramakrishna",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "15 years",
+    "type": "Regular"
+  },
+  {
+    "name": "A. Tejaswi",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "4 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Hafsa Ihteshamuddin Ahmed",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "4 years",
+    "type": "Regular"
+  },
+  {
+    "name": "M. Sara Angeline",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "4 years",
+    "type": "Regular"
+  },
+  {
+    "name": "G. Bhanu Priya",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "4 years",
+    "type": "Regular"
+  },
+  {
+    "name": "P. Rishitha",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "5 years",
+    "type": "Regular"
+  },
+  {
+    "name": "G. Sarika",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "3 years",
+    "type": "Regular"
+  },
+  {
+    "name": "M. Thejaswee",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "5 years",
+    "type": "Regular"
+  },
+  {
+    "name": "B. Manisha Rani",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "3 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Shaheda Begum",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "3 years",
+    "type": "Regular"
+  },
+  {
+    "name": "B. Soujanya",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "5 years",
+    "type": "Regular"
+  },
+  {
+    "name": "P. Abhishek Goud",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "2 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Bazila Wahaj",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "2.7 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Kalyani Priyanka",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "1 year",
+    "type": "Regular"
+  },
+  {
+    "name": "B. Sree Saranya",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, (Ph.D)",
+    "experience": "7 years",
+    "type": "Regular"
+  },
+  {
+    "name": "P. Kavya Sree",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "1 year",
+    "type": "Regular"
+  },
+  {
+    "name": "T. Radhika",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "1 year",
+    "type": "Regular"
+  },
+  {
+    "name": "Uppara Mahesh",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "5 years",
+    "type": "Regular"
+  },
+  {
+    "name": "M. Guravaiah Yadav",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "5 years",
+    "type": "Regular"
+  },
+  {
+    "name": "D. Nagaraju",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "5 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Shakeer Shaik",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech",
+    "experience": "5 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. Manoj Patil",
+    "designation": "Professor of Practice",
+    "department": "CSE",
+    "program": "UG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "15 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. A. Vinaya Babu",
+    "designation": "Professor & Dean Academics",
+    "department": "CSE",
+    "program": "PG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "41 years",
+    "type": "Regular"
+  },
+  {
+    "name": "Dr. M. Vidya Bhargavi",
+    "designation": "Associate Professor",
+    "department": "CSE",
+    "program": "PG",
+    "qualification": "M.Tech, Ph.D",
+    "experience": "17 years",
+    "type": "Regular"
+  },
+  {
+    "name": "M. Sandhya",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "PG",
+    "qualification": "M.Tech",
+    "experience": "15 years",
+    "type": "Regular"
+  },
+  {
+    "name": "D. Madhavi",
+    "designation": "Assistant Professor",
+    "department": "CSE",
+    "program": "PG",
+    "qualification": "M.Tech",
+    "experience": "13 years",
+    "type": "Regular"
+  }
+]

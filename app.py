@@ -5,6 +5,12 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from waitress import serve
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
 
 app = Flask(__name__)
 
@@ -15,7 +21,7 @@ bot = CollegeChatbot(
 
 @app.route("/")
 def index():
-    return render_template("chatbot.html", college_name=bot.college_name)
+    return render_template("index.html", college_name=bot.college_name)
 
 
 @app.route("/api/chat", methods=["POST"])

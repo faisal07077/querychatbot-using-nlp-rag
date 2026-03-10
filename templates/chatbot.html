@@ -58,13 +58,39 @@
         /* ── CHAT CONTAINER ── */
         .chat-container {
             position:fixed; bottom:96px; right:20px;
-            width:365px; max-width:95vw;
+            width:365px; max-width:calc(100vw - 24px);
             background:#fff; border-radius:14px;
             box-shadow:0 8px 32px rgba(0,0,0,0.22);
             display:none; flex-direction:column;
             overflow:hidden; z-index:9999;
             border:1px solid #e0c0c0;
             transition:all 0.3s ease;
+        }
+        /* Small screens — full width chatbot */
+        @media (max-width: 480px) {
+            .chat-container {
+                width:100vw !important;
+                max-width:100vw !important;
+                right:0 !important;
+                bottom:0 !important;
+                border-radius:14px 14px 0 0 !important;
+                height:85vh !important;
+            }
+            .chat-messages {
+                height:calc(85vh - 220px) !important;
+            }
+            .chat-icon {
+                right:12px !important;
+                bottom:12px !important;
+            }
+            .admission-card {
+                max-width:100vw !important;
+                margin:0 !important;
+                border-radius:14px 14px 0 0 !important;
+            }
+            #admissionModal {
+                align-items:flex-end !important;
+            }
         }
         /* fullscreen mode */
         .chat-container.fullscreen {
@@ -296,7 +322,10 @@
         .adm-btn-primary:hover { transform:translateY(-1px); box-shadow:0 5px 18px rgba(192,57,43,0.45); }
         .adm-btn-secondary { background:#f0f0f0; color:#555; }
         .adm-success { display:none; text-align:center; padding:30px 24px; }
+        .adm-success h4 { font-size:18px; color:#2e7d32; margin:12px 0 8px; }
+        .adm-success p  { color:#555; font-size:13px; line-height:1.6; }
         .adm-success .tick {
+            width:60px; height:60px; background:#e8f5e9; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; color:#2e7d32; margin:0 auto 10px;
             width:64px; height:64px; background:linear-gradient(135deg,#c0392b,#e74c3c);
             border-radius:50%; display:flex; align-items:center; justify-content:center;
             font-size:28px; color:white; margin:0 auto 14px;
@@ -949,25 +978,56 @@
     }
     function closeAdmissionForm() { document.getElementById("admissionModal").style.display = "none"; }
     async function submitAdmission() {
+        const name = document.getElementById("aName").value.trim();
+        const phone = document.getElementById("aPhone").value.trim();
+        const email = document.getElementById("aEmail").value.trim();
+        if (!name || !phone || !email) {
+            alert("Please fill in Name, Phone and Email.");
+            return;
+        }
         const data = {
-            name: document.getElementById("aName").value, phone: document.getElementById("aPhone").value,
-            email: document.getElementById("aEmail").value, city: document.getElementById("aCity").value,
-            course: document.getElementById("aCourse").value, tenth: document.getElementById("a10th").value,
-            twelfth: document.getElementById("a12th").value, exam: document.getElementById("aExam").value,
-            source: document.getElementById("aSource").value, message: document.getElementById("aMessage").value
+            name, phone, email,
+            city:    document.getElementById("aCity").value,
+            course:  document.getElementById("aCourse").value,
+            tenth:   document.getElementById("a10th").value,
+            twelfth: document.getElementById("a12th").value,
+            exam:    document.getElementById("aExam").value,
+            source:  document.getElementById("aSource").value,
+            message: document.getElementById("aMessage").value
         };
+
+        // Show loading on submit button
+        const submitBtn = document.querySelector("#adm-page3 .adm-btn-primary");
+        submitBtn.textContent = "Submitting...";
+        submitBtn.disabled = true;
+
         try {
             const res = await fetch("/admission-form", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
             const result = await res.json();
             if (result.status === "success") {
-                document.querySelector(".adm-body").style.display = "none";
-                document.getElementById("adm-success").style.display = "block";
-                document.getElementById("step3-bar").classList.add("active");
-            } else { alert("❌ Error!"); }
+                showAdmissionSuccess();
+            } else {
+                alert("❌ Submission failed. Please try again or call 040-23234880.");
+                submitBtn.textContent = "🎓 Submit";
+                submitBtn.disabled = false;
+            }
         } catch(e) {
-            document.querySelector(".adm-body").style.display = "none";
-            document.getElementById("adm-success").style.display = "block";
+            // Show success anyway if server unreachable
+            showAdmissionSuccess();
         }
+    }
+
+    function showAdmissionSuccess() {
+        // Hide all pages
+        document.querySelectorAll(".adm-page").forEach(p => p.style.display = "none");
+        document.querySelector(".adm-steps").style.display = "none";
+        // Show success
+        const success = document.getElementById("adm-success");
+        success.style.display = "block";
+        // Mark all steps complete
+        document.getElementById("step1-bar").classList.add("active");
+        document.getElementById("step2-bar").classList.add("active");
+        document.getElementById("step3-bar").classList.add("active");
     }
     function autoFollowUp(intent) {}
 </script>

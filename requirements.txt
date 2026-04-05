@@ -7,3 +7,5 @@ faiss-cpu
 waitress
 groq
 python-dotenv
+gunicorn
+pytest

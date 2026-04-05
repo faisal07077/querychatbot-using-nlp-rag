@@ -21,3 +21,11 @@ env/
 # OS files
 .DS_Store
 Thumbs.db
+
+
+.env
+__pycache__/
+.idea/
+*.pyc
+*.pyo
+data/vector_store/

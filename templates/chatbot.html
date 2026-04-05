@@ -381,6 +381,25 @@
 
         @keyframes popIn  { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
         @keyframes slideUp{ from{opacity:0;transform:translateY(30px) scale(0.97);} to{opacity:1;transform:translateY(0) scale(1);} }
+
+        /* ── MIC BUTTON ── */
+        #micBtn {
+            background: none; border: none;
+            font-size: 1.25rem; cursor: pointer;
+            padding: 0 10px; color: #c0392b;
+            transition: transform 0.2s, color 0.2s;
+            display: flex; align-items: center;
+        }
+        #micBtn:hover { transform: scale(1.2); }
+        #micBtn.listening {
+            color: #e74c3c;
+            animation: micPulse 0.8s ease-in-out infinite alternate;
+        }
+        #micBtn:disabled { color: #ccc; cursor: not-allowed; }
+        @keyframes micPulse {
+            from { transform: scale(1);   opacity: 1; }
+            to   { transform: scale(1.25); opacity: 0.7; }
+        }
     </style>
 </head>
 <body>
@@ -538,6 +557,7 @@
             <input type="text" id="userInput" placeholder="Type your question here..." maxlength="200"/>
             <div class="char-count" id="charCount">0 / 200</div>
         </div>
+        <button id="micBtn" title="Speak your question">🎤</button>
         <button id="sendBtn">Send</button>
     </div>
 </div>
@@ -1030,6 +1050,86 @@
         document.getElementById("step3-bar").classList.add("active");
     }
     function autoFollowUp(intent) {}
+
+    /* ── VOICE INPUT (Mic Button) ── */
+    (function () {
+        const micBtn = document.getElementById("micBtn");
+
+        // Browser support check
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            micBtn.disabled = true;
+            micBtn.title    = "Voice input not supported in this browser. Use Chrome or Edge.";
+            micBtn.style.opacity = "0.35";
+            return;
+        }
+
+        const recognition        = new SpeechRecognition();
+        recognition.lang         = langNames[currentLang] || "en-IN";
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        let isListening = false;
+
+        // Keep lang in sync when user switches language
+        const origCycleLang = window.cycleLang;
+        window.cycleLang = function () {
+            origCycleLang && origCycleLang();
+            recognition.lang = langNames[currentLang] || "en-IN";
+        };
+
+        micBtn.addEventListener("click", function () {
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.lang = langNames[currentLang] || "en-IN";
+                recognition.start();
+            }
+        });
+
+        recognition.onstart = function () {
+            isListening = true;
+            micBtn.textContent = "🔴";
+            micBtn.title       = "Listening… click to stop";
+            micBtn.classList.add("listening");
+            userInput.placeholder = "Listening…";
+        };
+
+        recognition.onend = function () {
+            isListening = false;
+            micBtn.textContent = "🎤";
+            micBtn.title       = "Speak your question";
+            micBtn.classList.remove("listening");
+            userInput.placeholder = "Type your question here...";
+        };
+
+        recognition.onresult = function (event) {
+            const transcript = event.results[0][0].transcript;
+            userInput.value  = transcript;
+            // update char counter
+            const charEl = document.getElementById("charCount");
+            if (charEl) {
+                charEl.textContent = transcript.length + " / 200";
+                charEl.className   = "char-count" + (transcript.length > 170 ? " warn" : "");
+            }
+            // Auto-send after voice
+            sendMessage();
+        };
+
+        recognition.onerror = function (event) {
+            isListening = false;
+            micBtn.textContent = "🎤";
+            micBtn.classList.remove("listening");
+            userInput.placeholder = "Type your question here...";
+            if (event.error === "not-allowed") {
+                alert("Microphone access denied. Please allow microphone permission in your browser settings and try again.");
+            } else if (event.error === "no-speech") {
+                userInput.placeholder = "No speech detected. Try again.";
+                setTimeout(() => { userInput.placeholder = "Type your question here..."; }, 2500);
+            }
+        };
+    })();
+
 </script>
 </body>
 </html>
